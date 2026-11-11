@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Planificador de Estudio Parciales 2026 - Alberto</title>
   
+  <!-- Dynamic SVG Favicon -->
+  <link id="dynamic-favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -19,34 +22,6 @@
               500: '#0ea5e9',
               600: '#0284c7',
               700: '#0369a1',
-            },
-            mates: {
-              light: '#818cf8',
-              DEFAULT: '#4f46e5',
-              dark: '#3730a3',
-              bg: '#eef2ff',
-              darkbg: '#1e1b4b'
-            },
-            fisica: {
-              light: '#fbbf24',
-              DEFAULT: '#d97706',
-              dark: '#92400e',
-              bg: '#fffbeb',
-              darkbg: '#451a03'
-            },
-            prog: {
-              light: '#34d399',
-              DEFAULT: '#059669',
-              dark: '#065f46',
-              bg: '#ecfdf5',
-              darkbg: '#064e3b'
-            },
-            comp: {
-              light: '#38bdf8',
-              DEFAULT: '#0284c7',
-              dark: '#075985',
-              bg: '#f0f9ff',
-              darkbg: '#0c4a6e'
             }
           }
         }
@@ -66,7 +41,6 @@
     body {
       font-family: 'Inter', sans-serif;
     }
-    /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 8px;
       height: 8px;
@@ -81,55 +55,48 @@
     .dark ::-webkit-scrollbar-thumb {
       background: #475569;
     }
-    .checkbox-custom:checked + label .checkbox-box {
-      background-color: #10b981;
-      border-color: #10b981;
-    }
-    .checkbox-custom:checked + label .checkbox-box svg {
-      opacity: 1;
-      transform: scale(1);
-    }
-    .accordion-content {
-      transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+    .task-card {
+      transition: all 0.2s ease-in-out;
     }
   </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-full flex flex-col transition-colors duration-200">
 
   <!-- TOP NAVBAR -->
-  <header class="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
+  <header class="sticky top-0 z-30 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
       
-      <!-- Brand & Title -->
+      <!-- Brand & Custom Logo -->
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-sky-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
-          <i data-lucide="graduation-cap" class="w-6 h-6"></i>
-        </div>
+        <button id="btn-open-logo-modal" class="relative group focus:outline-none" title="Cambiar foto de logo">
+          <div class="w-11 h-11 rounded-xl overflow-hidden ring-2 ring-indigo-500/30 group-hover:ring-indigo-500 transition shadow-md bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+            <img id="app-logo-img" src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=120&auto=format&fit=crop&q=80" alt="Logo Estudio" class="w-full h-full object-cover">
+          </div>
+          <span class="absolute -bottom-1 -right-1 bg-indigo-600 text-white p-0.5 rounded-full text-[9px] shadow group-hover:scale-110 transition">
+            <i data-lucide="camera" class="w-2.5 h-2.5"></i>
+          </span>
+        </button>
         <div>
-          <h1 class="text-lg font-bold leading-snug flex items-center gap-2">
+          <h1 class="text-base sm:text-lg font-bold leading-snug flex items-center gap-2">
             Plan Parciales Dic 2026
             <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">Alberto</span>
           </h1>
-          <p class="text-xs text-slate-500 dark:text-slate-400">11 Nov - 17 Dic • 6h diarias de estudio</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400">11 Nov - 17 Dic • Seguimiento de Horas Reales</p>
         </div>
       </div>
 
       <!-- Action Buttons -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        
-        <!-- Strategy / Tips Button -->
+      <div class="flex items-center gap-2">
         <button id="btn-trucos" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition">
           <i data-lucide="lightbulb" class="w-4 h-4 text-amber-500"></i>
-          <span class="hidden md:inline">Trucos y Reglas</span>
+          <span class="hidden md:inline">Reglas</span>
         </button>
 
-        <!-- Export / Import Button -->
         <button id="btn-backup" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
           <i data-lucide="arrow-up-down" class="w-4 h-4"></i>
           <span class="hidden md:inline">Datos</span>
         </button>
 
-        <!-- Dark Mode Toggle -->
         <button id="btn-theme" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
           <i data-lucide="moon" id="icon-moon" class="w-5 h-5 hidden dark:block"></i>
           <i data-lucide="sun" id="icon-sun" class="w-5 h-5 block dark:hidden"></i>
@@ -142,7 +109,7 @@
   <!-- MAIN CONTAINER -->
   <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-    <!-- OVERVIEW DASHBOARD & PROGRESS CARD -->
+    <!-- OVERVIEW DASHBOARD & HOURS SUMMARY -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       
       <!-- Total Progress Box -->
@@ -150,19 +117,28 @@
         <div>
           <div class="flex items-center justify-between mb-3">
             <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-              <i data-lucide="activity" class="w-4 h-4 text-indigo-500"></i> Progreso General
+              <i data-lucide="activity" class="w-4 h-4 text-indigo-500"></i> Progreso en Horas
             </span>
             <span id="overall-percentage" class="text-2xl font-black text-indigo-600 dark:text-indigo-400">0%</span>
           </div>
           
-          <!-- Progress Bar -->
           <div class="w-full bg-slate-100 dark:bg-slate-700 h-3.5 rounded-full overflow-hidden p-0.5 border border-slate-200 dark:border-slate-600 mb-4">
             <div id="overall-bar" class="h-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
           </div>
           
-          <div class="flex items-center justify-between text-xs text-slate-600 dark:text-slate-300 font-medium">
-            <span>Tareas completadas: <strong id="completed-count" class="text-slate-900 dark:text-white">0</strong> / <span id="total-count">0</span></span>
-            <span>Horas: <strong id="completed-hours" class="text-slate-900 dark:text-white">0</strong> / <span id="total-hours">0</span> h</span>
+          <div class="space-y-1 text-xs font-medium text-slate-600 dark:text-slate-300">
+            <div class="flex justify-between">
+              <span>Horas estudiadas reales:</span>
+              <strong id="completed-hours" class="text-emerald-600 dark:text-emerald-400 font-bold">0.0 h</strong>
+            </div>
+            <div class="flex justify-between">
+              <span>Horas planificadas objetivo:</span>
+              <span id="total-hours" class="font-bold text-slate-900 dark:text-white">0.0 h</span>
+            </div>
+            <div class="flex justify-between text-amber-600 dark:text-amber-400">
+              <span>Horas pendientes por redistribuir:</span>
+              <strong id="pending-hours-total">0.0 h</strong>
+            </div>
           </div>
         </div>
 
@@ -172,7 +148,7 @@
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
             </span>
-            <span class="text-xs text-slate-500 dark:text-slate-400">Estado de avance en vivo</span>
+            <span class="text-xs text-slate-500 dark:text-slate-400">Cálculo de horas en vivo</span>
           </div>
           <button id="btn-reset" class="text-xs text-rose-600 dark:text-rose-400 hover:underline flex items-center gap-1 font-semibold">
             <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Reiniciar
@@ -183,8 +159,8 @@
       <!-- Subject Breakdown Box -->
       <div class="lg:col-span-2 bg-white dark:bg-slate-800/90 rounded-2xl p-6 border border-slate-200 dark:border-slate-700/80 shadow-sm">
         <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4 flex items-center justify-between">
-          <span>Avance por Asignatura y Prioridad</span>
-          <span class="text-slate-400 font-normal lowercase">(orden del plan oficial)</span>
+          <span>Horas Reales por Asignatura</span>
+          <span class="text-slate-400 font-normal lowercase">(vs plan de parciales)</span>
         </h3>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -196,13 +172,16 @@
                 <span class="w-2 h-2 rounded-full bg-indigo-600"></span>
                 Matemáticas I
               </span>
-              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300">Prio 1</span>
+              <div class="flex items-center gap-2">
+                <span id="text-mates-debt" class="text-[11px] font-semibold text-amber-600 dark:text-amber-400"></span>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300">Prio 1</span>
+              </div>
             </div>
             <div class="w-full bg-indigo-200/50 dark:bg-indigo-900/50 h-2 rounded-full overflow-hidden mb-2">
               <div id="bar-mates" class="bg-indigo-600 h-full transition-all duration-300" style="width: 0%"></div>
             </div>
             <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400">
-              <span id="text-mates-count">0 / 0 tareas</span>
+              <span id="text-mates-count">0 / 0 h</span>
               <span id="text-mates-pct" class="font-bold text-indigo-600 dark:text-indigo-400">0%</span>
             </div>
           </div>
@@ -214,13 +193,16 @@
                 <span class="w-2 h-2 rounded-full bg-amber-600"></span>
                 Física (Ondas / Moderna)
               </span>
-              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300">Prio 2</span>
+              <div class="flex items-center gap-2">
+                <span id="text-fisica-debt" class="text-[11px] font-semibold text-amber-600 dark:text-amber-400"></span>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300">Prio 2</span>
+              </div>
             </div>
-            <div class="w-full bg-amber-200/50 dark:bg-amber-900/50 h-2 rounded-full overflow-hidden mb-2">
+            <div class="w-full bg-amber-200/50 dark:bg-amber-950/50 h-2 rounded-full overflow-hidden mb-2">
               <div id="bar-fisica" class="bg-amber-600 h-full transition-all duration-300" style="width: 0%"></div>
             </div>
             <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400">
-              <span id="text-fisica-count">0 / 0 tareas</span>
+              <span id="text-fisica-count">0 / 0 h</span>
               <span id="text-fisica-pct" class="font-bold text-amber-600 dark:text-amber-400">0%</span>
             </div>
           </div>
@@ -232,13 +214,16 @@
                 <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
                 Fundamentos Prog I (C)
               </span>
-              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300">Prio 3</span>
+              <div class="flex items-center gap-2">
+                <span id="text-prog-debt" class="text-[11px] font-semibold text-amber-600 dark:text-amber-400"></span>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300">Prio 3</span>
+              </div>
             </div>
             <div class="w-full bg-emerald-200/50 dark:bg-emerald-900/50 h-2 rounded-full overflow-hidden mb-2">
               <div id="bar-prog" class="bg-emerald-600 h-full transition-all duration-300" style="width: 0%"></div>
             </div>
             <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400">
-              <span id="text-prog-count">0 / 0 tareas</span>
+              <span id="text-prog-count">0 / 0 h</span>
               <span id="text-prog-pct" class="font-bold text-emerald-600 dark:text-emerald-400">0%</span>
             </div>
           </div>
@@ -250,13 +235,16 @@
                 <span class="w-2 h-2 rounded-full bg-sky-600"></span>
                 Fundamentos Computadores
               </span>
-              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300">Prio 4</span>
+              <div class="flex items-center gap-2">
+                <span id="text-comp-debt" class="text-[11px] font-semibold text-amber-600 dark:text-amber-400"></span>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300">Prio 4</span>
+              </div>
             </div>
             <div class="w-full bg-sky-200/50 dark:bg-sky-900/50 h-2 rounded-full overflow-hidden mb-2">
               <div id="bar-comp" class="bg-sky-600 h-full transition-all duration-300" style="width: 0%"></div>
             </div>
             <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400">
-              <span id="text-comp-count">0 / 0 tareas</span>
+              <span id="text-comp-count">0 / 0 h</span>
               <span id="text-comp-pct" class="font-bold text-sky-600 dark:text-sky-400">0%</span>
             </div>
           </div>
@@ -276,11 +264,11 @@
         </button>
         <button data-view="pending" class="view-btn px-4 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition flex items-center gap-1.5">
           <i data-lucide="clock" class="w-4 h-4 text-amber-500"></i> 
-          Pendientes 
+          Sesiones Incompletas
           <span id="pending-badge" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-bold">0</span>
         </button>
         <button data-view="exams" class="view-btn px-4 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition">
-          <i data-lucide="calendar-check" class="w-4 h-4 text-rose-500 inline mr-1"></i> Hitos y Exámenes
+          <i data-lucide="calendar-check" class="w-4 h-4 text-rose-500 inline mr-1"></i> Exámenes
         </button>
       </div>
 
@@ -300,35 +288,70 @@
 
     </div>
 
-    <!-- MAIN CONTENT CONTAINERS -->
+    <!-- MAIN VIEWS -->
+    <div id="view-phases-container" class="space-y-4"></div>
 
-    <!-- CONTAINER 1: PHASES ACCORDION VIEW -->
-    <div id="view-phases-container" class="space-y-4">
-      <!-- Dynamic Phase Accordions injected via JS -->
-    </div>
-
-    <!-- CONTAINER 2: PENDING BACKLOG VIEW -->
     <div id="view-pending-container" class="hidden space-y-4">
       <div class="bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 rounded-xl p-4 flex items-start gap-3">
-        <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5"></i>
+        <i data-lucide="alert-circle" class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5"></i>
         <div class="text-xs text-amber-900 dark:text-amber-200 space-y-1">
-          <strong class="font-bold text-sm block">Recuperación de Tareas y Ajuste de Días</strong>
-          <p>Aquí se muestran únicamente las tareas que aún no has marcado como completadas. Si algún día no pudiste cumplir con el horario, recurre a esta lista para compensar en tus horas libres o fines de semana.</p>
+          <strong class="font-bold text-sm block">Redistribución aislada por asignatura</strong>
+          <p>Si te faltan horas en una materia (por ejemplo 1h de 2.5h en Mates I), esa hora pendiente se sumará <strong>exclusivamente a sesiones futuras de esa misma asignatura</strong> (Mates I &rarr; Mates I, Física &rarr; Física, etc.). NUNCA se mezclará con otras materias.</p>
         </div>
       </div>
-      <div id="pending-items-list" class="space-y-3">
-        <!-- Rendered by JS -->
-      </div>
+      <div id="pending-items-list" class="space-y-3"></div>
     </div>
 
-    <!-- CONTAINER 3: EXAMS AND MILESTONES VIEW -->
     <div id="view-exams-container" class="hidden space-y-4">
-      <div id="exams-items-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Rendered by JS -->
-      </div>
+      <div id="exams-items-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
     </div>
 
   </main>
+
+  <!-- LOGO CUSTOMIZATION MODAL -->
+  <div id="modal-logo" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-4">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-700">
+        <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <i data-lucide="image" class="w-5 h-5 text-indigo-500"></i> Personalizar Foto del Logo
+        </h3>
+        <button class="close-modal text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        <label class="text-xs font-semibold text-slate-700 dark:text-slate-300 block">Elige un estilo prediseñado:</label>
+        
+        <div class="grid grid-cols-4 gap-2">
+          <button data-preset="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=120&auto=format&fit=crop&q=80" class="btn-preset-logo p-1 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-indigo-500 overflow-hidden group">
+            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=120&auto=format&fit=crop&q=80" class="w-full h-10 object-cover rounded-lg group-hover:scale-105 transition" alt="Estudio">
+          </button>
+          <button data-preset="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=120&auto=format&fit=crop&q=80" class="btn-preset-logo p-1 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-indigo-500 overflow-hidden group">
+            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=120&auto=format&fit=crop&q=80" class="w-full h-10 object-cover rounded-lg group-hover:scale-105 transition" alt="Programación">
+          </button>
+          <button data-preset="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=120&auto=format&fit=crop&q=80" class="btn-preset-logo p-1 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-indigo-500 overflow-hidden group">
+            <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=120&auto=format&fit=crop&q=80" class="w-full h-10 object-cover rounded-lg group-hover:scale-105 transition" alt="Física/Mates">
+          </button>
+          <button data-preset="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=120&auto=format&fit=crop&q=80" class="btn-preset-logo p-1 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-indigo-500 overflow-hidden group">
+            <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=120&auto=format&fit=crop&q=80" class="w-full h-10 object-cover rounded-lg group-hover:scale-105 transition" alt="Libros">
+          </button>
+        </div>
+
+        <div>
+          <label for="input-custom-logo-url" class="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">O pega una URL de imagen propia:</label>
+          <input type="url" id="input-custom-logo-url" placeholder="https://ejemplo.com/tu-foto.jpg" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-700">
+        <button class="close-modal px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">Cancelar</button>
+        <button id="btn-save-logo" class="px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 transition">Guardar Logo</button>
+      </div>
+
+    </div>
+  </div>
 
   <!-- TRUCOS MODAL -->
   <div id="modal-trucos" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
@@ -337,69 +360,46 @@
       <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between bg-amber-50/50 dark:bg-amber-950/30">
         <div class="flex items-center gap-2">
           <i data-lucide="sparkles" class="w-5 h-5 text-amber-500"></i>
-          <h3 class="text-base font-bold text-slate-900 dark:text-white">Trucos y Reglas de Oro del Plan</h3>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white">Trucos y Reglas del Plan</h3>
         </div>
-        <button class="close-modal text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition p-1">
+        <button class="close-modal text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
       <div class="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
-        
         <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 flex gap-3">
           <span class="text-lg">📖</span>
           <div>
             <strong class="font-semibold text-slate-900 dark:text-white">Prácticas de laboratorio:</strong>
-            <p>Antes de cada práctica, lee detenidamente el guion. Al terminar la práctica en la facultad, repite el ejercicio en casa sin mirar las soluciones.</p>
+            <p>Lee el guion antes de ir a clase. Al terminar la práctica, repite los ejercicios en casa sin mirar las soluciones.</p>
           </div>
         </div>
-
         <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 flex gap-3">
           <span class="text-lg">🎯</span>
           <div>
-            <strong class="font-semibold text-slate-900 dark:text-white">Enfoque práctico activo:</strong>
-            <p>En cada sesión de estudio, empieza resolviendo problemas de inmediato. Recurre a la teoría solo cuando te atasques o no recuerdes un concepto clave.</p>
+            <strong class="font-semibold text-slate-900 dark:text-white">Enfoque activo:</strong>
+            <p>Empieza resolviendo problemas en cada sesión. Lee la teoría solo cuando te atasques.</p>
           </div>
         </div>
-
         <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 flex gap-3">
           <span class="text-lg">💻</span>
           <div>
             <strong class="font-semibold text-slate-900 dark:text-white">Programación y Computadores:</strong>
-            <p>Se aprenden únicamente picando código y escribiendo a mano o en IDE. Practica sin tener los apuntes al lado.</p>
+            <p>Se aprenden únicamente picando código y escribiendo a mano sin apuntes al lado.</p>
           </div>
         </div>
-
-        <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 flex gap-3">
-          <span class="text-lg">⚛️</span>
-          <div>
-            <strong class="font-semibold text-slate-900 dark:text-white">Fórmulas de Física:</strong>
-            <p>Revisa las fórmulas con frecuencia durante el estudio. No intentes memorizarlas a última hora antes del examen.</p>
-          </div>
-        </div>
-
-        <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 flex gap-3">
-          <span class="text-lg">😴</span>
-          <div>
-            <strong class="font-semibold text-slate-900 dark:text-white">Descanso pre-examen:</strong>
-            <p>La noche anterior a cada examen es imprescindible dormir bien. Un cerebro descansado rinde mucho más que una hora extra de estudio nocturno.</p>
-          </div>
-        </div>
-
         <div class="p-3.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 flex gap-3">
           <span class="text-lg">⚖️</span>
           <div>
-            <strong class="font-semibold text-indigo-900 dark:text-indigo-200">Priorización si falta tiempo:</strong>
-            <p>Matemáticas I es la prioridad #1. Si te desbordas en algún momento, recorta horas de Computadores antes que de Mates.</p>
+            <strong class="font-semibold text-indigo-900 dark:text-indigo-200">Prioridad #1: Matemáticas I</strong>
+            <p>Si te desbordas en algún momento, recorta horas de Computadores antes que de Mates I.</p>
           </div>
         </div>
-
       </div>
 
       <div class="px-6 py-3 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-right">
-        <button class="close-modal px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 transition">
-          Entendido
-        </button>
+        <button class="close-modal px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 transition">Entendido</button>
       </div>
 
     </div>
@@ -408,293 +408,391 @@
   <!-- EXPORT / IMPORT MODAL -->
   <div id="modal-backup" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
     <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-4">
-      
       <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-700">
         <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-          <i data-lucide="database" class="w-5 h-5 text-indigo-500"></i> Copia de Seguridad / Progreso
+          <i data-lucide="database" class="w-5 h-5 text-indigo-500"></i> Copia de Seguridad
         </h3>
         <button class="close-modal text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
-
-      <p class="text-xs text-slate-600 dark:text-slate-400">
-        Puedes exportar tus tareas completadas a un archivo JSON o importar una copia previamente guardada.
-      </p>
-
+      <p class="text-xs text-slate-600 dark:text-slate-400">Descarga tu progreso en JSON o restaura un archivo en tu ordenador o móvil.</p>
       <div class="space-y-3">
-        <button id="btn-export-file" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition shadow-sm">
-          <i data-lucide="download" class="w-4 h-4"></i> Descargar Copia de Seguridad (JSON)
+        <button id="btn-export-file" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition">
+          <i data-lucide="download" class="w-4 h-4"></i> Descargar JSON de Progreso
         </button>
-        
-        <div class="relative flex py-1 items-center">
-          <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-          <span class="flex-shrink mx-3 text-[10px] text-slate-400 font-bold uppercase">O restaurar</span>
-          <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-        </div>
-
         <input type="file" id="file-import" accept=".json" class="hidden">
         <button id="btn-import-file" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-600 transition">
-          <i data-lucide="upload" class="w-4 h-4"></i> Seleccionar archivo JSON para Importar
+          <i data-lucide="upload" class="w-4 h-4"></i> Importar archivo JSON
         </button>
       </div>
-
       <div class="pt-2 text-right">
-        <button class="close-modal px-4 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">
-          Cerrar
-        </button>
+        <button class="close-modal px-4 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">Cerrar</button>
       </div>
-
     </div>
   </div>
 
-  <!-- RESET CONFIRMATION MODAL -->
+  <!-- RESET MODAL -->
   <div id="modal-reset" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
     <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-4">
-      
       <div class="flex items-center gap-3 text-rose-600 dark:text-rose-400">
         <div class="w-10 h-10 rounded-full bg-rose-100 dark:bg-rose-950/60 flex items-center justify-center shrink-0">
           <i data-lucide="alert-triangle" class="w-6 h-6"></i>
         </div>
         <div>
           <h3 class="text-base font-bold text-slate-900 dark:text-white">¿Reiniciar todo el avance?</h3>
-          <p class="text-xs text-slate-500 dark:text-slate-400">Esta acción desmarcará todas las tareas completadas.</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Se borrarán los registros de horas reales y redistribuciones.</p>
         </div>
       </div>
-
       <div class="flex items-center justify-end gap-3 pt-2">
-        <button class="close-modal px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-          Cancelar
-        </button>
-        <button id="confirm-reset-btn" class="px-4 py-2 rounded-xl text-xs font-bold bg-rose-600 text-white hover:bg-rose-700 transition shadow-sm">
-          Sí, reiniciar progreso
-        </button>
+        <button class="close-modal px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300">Cancelar</button>
+        <button id="confirm-reset-btn" class="px-4 py-2 rounded-xl text-xs font-bold bg-rose-600 text-white hover:bg-rose-700">Sí, reiniciar todo</button>
       </div>
-
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATION CONTAINER -->
+  <!-- TOAST CONTAINER -->
   <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-  <!-- JAVASCRIPT LOGIC -->
+  <!-- JAVASCRIPT APP CORE -->
   <script>
     /* ==========================================================================
-       DATA STRUCTURE FOR ALBERTO'S STUDY PLAN (DEC 2026)
+       1. DATA DEFINITIONS & PLAN STRUCTURE
        ========================================================================== */
+    const SUBJECT_CONFIG = {
+      mates: { name: "Matemáticas I", colorClass: "bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800", prioClass: "bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300", prioText: "Prio 1" },
+      fisica: { name: "Física", colorClass: "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300 border-amber-200 dark:border-amber-800", prioClass: "bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300", prioText: "Prio 2" },
+      prog: { name: "Programación (C)", colorClass: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800", prioClass: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300", prioText: "Prio 3" },
+      comp: { name: "Computadores", colorClass: "bg-sky-100 text-sky-700 dark:bg-sky-950 dark:text-sky-300 border-sky-200 dark:border-sky-800", prioClass: "bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300", prioText: "Prio 4" },
+      libre: { name: "Libre", colorClass: "bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300 border-rose-200 dark:border-rose-800", prioClass: "bg-rose-100 text-rose-700 dark:bg-rose-900 dark:text-rose-300", prioText: "Descanso" }
+    };
+
     const STUDY_PLAN = [
       {
         phaseId: "fase1",
-        phaseTitle: "Fase 1: Base",
-        dates: "11 - 21 Noviembre 2026",
-        badge: "Base teórica y práctica",
+        phaseTitle: "Fase 1: Base sólida",
+        dates: "11 - 21 Nov 2026",
+        badge: "Día a día: Mates 2.5h, Prog 2.5h, Física 1h (Jueves/Viernes con Prácticas)",
         groups: [
           {
-            period: "11 - 14 Noviembre (Mié - Sáb)",
+            period: "Miércoles 11 de Noviembre",
             tasks: [
-              { id: "p1_1", subject: "mates", prio: 1, title: "Tema 3: Matrices y sistemas", hours: 2.5, desc: "Teoría y resolución de sistemas de ecuaciones lineales." },
-              { id: "p1_2", subject: "prog", prio: 3, title: "Tipos, operadores, condicionales, bucles", hours: 2.5, desc: "Sintaxis C, estructuras de control `if/else`, `switch`, `for`, `while`." },
-              { id: "p1_3", subject: "fisica", prio: 2, title: "Relatividad: Postulados y dilatación del tiempo", hours: 1.0, desc: "Conceptos fundamentales y transformaciones iniciales." }
+              { id: "d11nov_mates", subject: "mates", hours: 2.5, title: "Mates I: Tema 3 (Matrices y Sistemas)", desc: "Estudio inicial de teoría y resolución de matrices." },
+              { id: "d11nov_prog", subject: "prog", hours: 2.5, title: "Prog I: Tipos, operadores, condicionales", desc: "Sintaxis básica C y estructuras condicionales." },
+              { id: "d11nov_fisica", subject: "fisica", hours: 1.0, title: "Física: Relatividad (Postulados y tiempo)", desc: "Postulados y dilatación del tiempo." }
             ]
           },
           {
-            period: "Jueves 12 Noviembre",
+            period: "Jueves 12 de Noviembre",
             tasks: [
-              { id: "p1_4", subject: "comp", prio: 4, title: "Práctica de Computadores (15:00 - 17:00)", hours: 2.0, desc: "Lectura previa obligatoria del Tema 9 antes de asistir." },
-              { id: "p1_5", subject: "mates", prio: 1, title: "Estudio Mañana: Mates I", hours: 2.0, desc: "Ejercicios prácticos del Tema 3." },
-              { id: "p1_6", subject: "prog", prio: 3, title: "Estudio Mañana: Programación (C)", hours: 1.0, desc: "Problemas prácticos de bucles." },
-              { id: "p1_7", subject: "fisica", prio: 2, title: "Estudio Mañana: Física", hours: 1.0, desc: "Problemas de dilatación del tiempo." }
+              { id: "d12nov_mates", subject: "mates", hours: 2.0, title: "Mates I: Tema 3 (Sistemas lineales)", desc: "Método de Gauss y discusión de sistemas." },
+              { id: "d12nov_prog", subject: "prog", hours: 1.0, title: "Prog I: Ejercicios de condicionales", desc: "Problemas prácticos en C." },
+              { id: "d12nov_fisica", subject: "fisica", hours: 1.0, title: "Física: Relatividad (Dilatación del tiempo)", desc: "Ejercicios de dilatación temporal." },
+              { id: "d12nov_comp", subject: "comp", hours: 2.0, title: "Computadores: Práctica 1 (15:00 - 17:00)", desc: "Laboratorio (Previamente leído Tema 9)." }
             ]
           },
           {
-            period: "Viernes 13 Noviembre",
+            period: "Viernes 13 de Noviembre",
             tasks: [
-              { id: "p1_8", subject: "prog", prio: 3, title: "Práctica de Programación (16:30 - 18:30)", hours: 2.0, desc: "Desarrollo en el laboratorio." },
-              { id: "p1_9", subject: "mates", prio: 1, title: "Estudio Mañana: Mates I", hours: 2.5, desc: "Consolidación Tema 3." },
-              { id: "p1_10", subject: "fisica", prio: 2, title: "Estudio Mañana: Física", hours: 1.5, desc: "Relatividad especial." }
+              { id: "d13nov_mates", subject: "mates", hours: 2.5, title: "Mates I: Tema 3 (Matrices inversas y determinantes)", desc: "Problemas tipo examen." },
+              { id: "d13nov_fisica", subject: "fisica", hours: 1.5, title: "Física: Relatividad (Ejercicios de tiempo)", desc: "Problemas de dilatación temporal." },
+              { id: "d13nov_prog", subject: "prog", hours: 2.0, title: "Prog I: Práctica de C (16:30 - 18:30)", desc: "Asistencia y resolución de ejercicios en laboratorio." }
             ]
           },
           {
-            period: "Domingo 15 Noviembre",
+            period: "Sábado 14 de Noviembre",
+            tasks: [
+              { id: "d14nov_mates", subject: "mates", hours: 2.5, title: "Mates I: Tema 3 (Consolidación matrices y sistemas)", desc: "Repaso final del Tema 3." },
+              { id: "d14nov_prog", subject: "prog", hours: 2.5, title: "Prog I: Bucles (for, while, do-while)", desc: "Práctica intensa de bucles en C." },
+              { id: "d14nov_fisica", subject: "fisica", hours: 1.0, title: "Física: Relatividad (Problemas combinados)", desc: "Consolidación de postulados." }
+            ]
+          },
+          {
+            period: "Domingo 15 de Noviembre",
             isRest: true,
             tasks: [
-              { id: "p1_11", subject: "libre", prio: 0, title: "¡DÍA LIBRE! Descanso total", hours: 0, desc: "Recargar energías. No hay estudio programado." }
+              { id: "d15nov_libre", subject: "libre", hours: 0, title: "Día Libre de Descanso", desc: "Desconexión total para recargar pilas." }
             ]
           },
           {
-            period: "16 - 21 Noviembre (Lun - Sáb)",
+            period: "Lunes 16 de Noviembre",
             tasks: [
-              { id: "p1_12", subject: "mates", prio: 1, title: "Tema 4: Espacio Vectorial Rn", hours: 2.5, desc: "Teoría de independencia lineal, bases y ejercicios prácticos." },
-              { id: "p1_13", subject: "prog", prio: 3, title: "Funciones y Arrays", hours: 2.5, desc: "Paso de parámetros, prototipos, vectores y matrices en C." },
-              { id: "p1_14", subject: "fisica", prio: 2, title: "Contracción de longitudes y Transformaciones de Lorentz", hours: 1.0, desc: "Resolución de problemas de cinemática relativista." },
-              { id: "p1_15", subject: "comp", prio: 4, title: "Jue 19 Nov: Práctica Computadores (15:00 - 17:00)", hours: 2.0, desc: "Leer previamente el Tema 10." },
-              { id: "p1_16", subject: "prog", prio: 3, title: "Vie 20 Nov: Práctica Programación (16:30 - 18:30)", hours: 2.0, desc: "Trabajo práctico de laboratorio." }
+              { id: "d16nov_mates", subject: "mates", hours: 2.5, title: "Mates I: Tema 4 (Espacio Vectorial Rn - Teoría)", desc: "Subespacios vectoriales y dependencia lineal." },
+              { id: "d16nov_prog", subject: "prog", hours: 2.5, title: "Prog I: Funciones y prototipos en C", desc: "Paso de parámetros por valor y ámbito de variables." },
+              { id: "d16nov_fisica", subject: "fisica", hours: 1.0, title: "Física: Contracción de longitudes", desc: "Efectos relativistas en distancias." }
+            ]
+          },
+          {
+            period: "Martes 17 de Noviembre",
+            tasks: [
+              { id: "d17nov_mates", subject: "mates", hours: 2.5, title: "Mates I: Tema 4 (Bases y Dimensión en Rn)", desc: "Cálculo de bases y dimensión de subespacios." },
+              { id: "d17nov_prog", subject: "prog", hours: 2.5, title: "Prog I: Arrays unidimensionales (Vectores)", desc: "Recorrido y manipulación de vectores en C." },
+              { id: "d17nov_fisica", subject: "fisica", hours: 1.0, title: "Física: Transformaciones de Lorentz", desc: "Fórmulas de transformación de coordenadas." }
+            ]
+          },
+          {
+            period: "Miércoles 18 de Noviembre",
+            tasks: [
+              { id: "d18nov_mates", subject: "mates", hours: 2.5, title: "Mates I: Tema 4 (Ecuaciones de subespacios)", desc: "Ecuaciones implícitas y paramétricas." },
+              { id: "d18nov_prog", subject: "prog", hours: 2.5, title: "Prog I: Arrays bidimensionales (Matrices)", desc: "Operaciones con matrices en C." },
+              { id: "d18nov_fisica", subject: "fisica", hours: 1.0, title: "Física: Lorentz (Problemas cinemáticos)", desc: "Relatividad de la simultaneidad." }
+            ]
+          },
+          {
+            period: "Jueves 19 de Noviembre",
+            tasks: [
+              { id: "d19nov_mates", subject: "mates", hours: 2.0, title: "Mates I: Tema 4 (Suma e intersección de subespacios)", desc: "Fórmula de Grassmann." },
+              { id: "d19nov_prog", subject: "prog", hours: 1.0, title: "Prog I: Funciones con Arrays", desc: "Paso de arrays a funciones en C." },
+              { id: "d19nov_fisica", subject: "fisica", hours: 1.0, title: "Física: Lorentz (Ejercicios de examen)", desc: "Resolución de casos prácticos." },
+              { id: "d19nov_comp", subject: "comp", hours: 2.0, title: "Computadores: Práctica 2 (15:00 - 17:00)", desc: "Laboratorio (Previamente leído Tema 10)." }
+            ]
+          },
+          {
+            period: "Viernes 20 de Noviembre",
+            tasks: [
+              { id: "d20nov_mates", subject: "mates", hours: 2.5, title: "Mates I: Tema 4 (Problemas complejos de Rn)", desc: "Subespacios vectoriales." },
+              { id: "d20nov_fisica", subject: "fisica", hours: 1.5, title: "Física: Lorentz (Consolidación)", desc: "Repaso cinemática relativista." },
+              { id: "d20nov_prog", subject: "prog", hours: 2.0, title: "Prog I: Práctica de C (16:30 - 18:30)", desc: "Laboratorio de programación en C." }
+            ]
+          },
+          {
+            period: "Sábado 21 de Noviembre",
+            tasks: [
+              { id: "d21nov_mates", subject: "mates", hours: 2.5, title: "Mates I: Tema 4 (Cierre y repaso Tema 4)", desc: "Problemas integrales de examen." },
+              { id: "d21nov_prog", subject: "prog", hours: 2.5, title: "Prog I: Ejercicios de funciones + arrays", desc: "Consolidación antes del sprint." },
+              { id: "d21nov_fisica", subject: "fisica", hours: 1.0, title: "Física: Relatividad cinemática completa", desc: "Repaso global de cinemática relativista." }
             ]
           }
         ]
       },
       {
         phaseId: "fase2",
-        phaseTitle: "Fase 2: Sprint Programación",
+        phaseTitle: "Fase 2: Sprint de Programación y Tema 6 Mates",
         dates: "22 Nov - 5 Dic 2026",
-        badge: "Preparación intensa para el 1er Parcial (4 dic)",
+        badge: "Día a día: Punteros, Structs, Ficheros C + Ortogonalidad y Diagonalización",
         groups: [
           {
-            period: "Domingo 22 Noviembre (Sesión reducida 4h)",
+            period: "Domingo 22 de Noviembre (Sesión 4h)",
             tasks: [
-              { id: "p2_1", subject: "prog", prio: 3, title: "Ejercicios intensivos de Funciones y Arrays", hours: 2.0, desc: "Resolución a papel y código sin consultar apuntes." },
-              { id: "p2_2", subject: "mates", prio: 1, title: "Tema 4: Problemas de Rn", hours: 2.0, desc: "Subespacios vectoriales y cambio de base." }
+              { id: "d22nov_prog", subject: "prog", hours: 2.0, title: "Prog I: Ejercicios intensivos de funciones y arrays", desc: "Práctica de código en C sin mirar apuntes." },
+              { id: "d22nov_mates", subject: "mates", hours: 2.0, title: "Mates I: Tema 4 (Resolución de problemas de examen)", desc: "Fórmula de Grassmann y cambios de base." }
             ]
           },
           {
-            period: "23 - 27 Noviembre (Lun - Vie)",
+            period: "Lunes 23 de Noviembre",
             tasks: [
-              { id: "p2_3", subject: "prog", prio: 3, title: "Punteros y Cadenas de caracteres", hours: 2.5, desc: "Aritmética de punteros, paso por referencia y librería `string.h`." },
-              { id: "p2_4", subject: "mates", prio: 1, title: "Tema 5: Ortogonalidad", hours: 2.0, desc: "Producto escalar, Gram-Schmidt y proyección ortogonal." },
-              { id: "p2_5", subject: "fisica", prio: 2, title: "Energía y Momento Relativistas", hours: 1.0, desc: "Ecuación $E=mc^2$, conservación de la energía/momento." },
-              { id: "p2_6", subject: "comp", prio: 4, title: "Tema 10: Direccionamiento (Jue 26: Práctica)", hours: 0.5, desc: "Estudio diario + Práctica de laboratorio Jueves 15:00-17:00." },
-              { id: "p2_7", subject: "prog", prio: 3, title: "Vie 27 Nov: Práctica Programación (16:30 - 18:30)", hours: 2.0, desc: "Asistencia a laboratorio." }
+              { id: "d23nov_prog", subject: "prog", hours: 2.5, title: "Prog I: Punteros (Concepto y operadores & / *)", desc: "Direcciones de memoria y declaración de punteros." },
+              { id: "d23nov_mates", subject: "mates", hours: 2.0, title: "Mates I: Tema 5 (Producto escalar y norma)", desc: "Ortogonalidad y ángulos entre vectores." },
+              { id: "d23nov_fisica", subject: "fisica", hours: 1.0, title: "Física: Energía y Momento relativistas", desc: "Cuadrimomento y relación E = mc²." },
+              { id: "d23nov_comp", subject: "comp", hours: 0.5, title: "Computadores: Tema 10 (Modos de direccionamiento)", desc: "Lectura y esquemas de direccionamiento." }
             ]
           },
           {
-            period: "Sábado 28 Noviembre",
+            period: "Martes 24 de Noviembre",
             tasks: [
-              { id: "p2_8", subject: "prog", prio: 3, title: "Structs (Estructuras de datos en C)", hours: 2.5, desc: "Definición, arrays de structs y estructuras anidadas." },
-              { id: "p2_9", subject: "mates", prio: 1, title: "Tema 6: Diagonalización (Inicio adelantado)", hours: 2.0, desc: "Empieza antes para aligerar diciembre." },
-              { id: "p2_10", subject: "fisica", prio: 2, title: "Problemas globales de Relatividad", hours: 1.0, desc: "Repaso práctico de ejercicios tipo examen." },
-              { id: "p2_11", subject: "comp", prio: 4, title: "Tema 11: Registros y Motorola 68000/68020 (Inicio)", hours: 0.5, desc: "Lectura inicial del tema." }
+              { id: "d24nov_prog", subject: "prog", hours: 2.5, title: "Prog I: Aritmética de punteros y punteros a arrays", desc: "Navegación en memoria con punteros." },
+              { id: "d24nov_mates", subject: "mates", hours: 2.0, title: "Mates I: Tema 5 (Subespacios ortogonales)", desc: "Complemento ortogonal en Rn." },
+              { id: "d24nov_fisica", subject: "fisica", hours: 1.0, title: "Física: Colisiones relativistas", desc: "Conservación del cuadrimomento." },
+              { id: "d24nov_comp", subject: "comp", hours: 0.5, title: "Computadores: Tema 10 (Direccionamiento indirecto)", desc: "Análisis de instrucciones." }
             ]
           },
           {
-            period: "Domingo 29 Noviembre (Sesión 4h)",
+            period: "Miércoles 25 de Noviembre",
             tasks: [
-              { id: "p2_12", subject: "prog", prio: 3, title: "Ejercicios combinados: Punteros y Structs", hours: 2.0, desc: "Punteros a structs y arrays de punteros." },
-              { id: "p2_13", subject: "mates", prio: 1, title: "Tema 6: Autovalores y Autovectores", hours: 2.0, desc: "Polinomio característico y cálculo de autospacios." }
+              { id: "d25nov_prog", subject: "prog", hours: 2.5, title: "Prog I: Cadenas de caracteres (strings en C)", desc: "Librería string.h, strlen, strcpy, strcmp." },
+              { id: "d25nov_mates", subject: "mates", hours: 2.0, title: "Mates I: Tema 5 (Proceso de Gram-Schmidt)", desc: "Construcción de bases ortonormales." },
+              { id: "d25nov_fisica", subject: "fisica", hours: 1.0, title: "Física: Ejercicios de masa y energía relativista", desc: "Problemas de desintegración y reacción." },
+              { id: "d25nov_comp", subject: "comp", hours: 0.5, title: "Computadores: Tema 10 (Direccionamiento relativo)", desc: "Registro PC y desplazamientos." }
             ]
           },
           {
-            period: "30 Nov - 1 Diciembre (Lun - Mar)",
+            period: "Jueves 26 de Noviembre",
             tasks: [
-              { id: "p2_14", subject: "prog", prio: 3, title: "Ficheros + Ejercicios de Examen real", hours: 2.5, desc: "Lectura/escritura en ficheros de texto y binarios." },
-              { id: "p2_15", subject: "mates", prio: 1, title: "Tema 6: Diagonalización de matrices", hours: 2.0, desc: "Criterios de diagonalización y matrices semejantes." },
-              { id: "p2_16", subject: "fisica", prio: 2, title: "Introducción a la Mecánica Cuántica", hours: 1.0, desc: "Radiación de cuerpo negro, efecto fotoeléctrico." },
-              { id: "p2_17", subject: "comp", prio: 4, title: "Tema 11: Instrucciones y Ensamblador M68k", hours: 0.5, desc: "Continuación de teoría." }
+              { id: "d26nov_prog", subject: "prog", hours: 1.0, title: "Prog I: Ejercicios de cadenas y punteros", desc: "Práctica de punteros a cadenas." },
+              { id: "d26nov_mates", subject: "mates", hours: 2.0, title: "Mates I: Tema 5 (Proyección ortogonal)", desc: "Matriz de proyección ortogonal." },
+              { id: "d26nov_fisica", subject: "fisica", hours: 1.0, title: "Física: Repaso de dinámica relativista", desc: "Ejercicios resueltos." },
+              { id: "d26nov_comp", subject: "comp", hours: 2.0, title: "Computadores: Práctica 3 (15:00 - 17:00)", desc: "Práctica de direccionamiento en laboratorio." }
             ]
           },
           {
-            period: "Miércoles 2 Diciembre (Simulacro de Prog)",
+            period: "Viernes 27 de Noviembre",
             tasks: [
-              { id: "p2_18", subject: "prog", prio: 3, title: "5 HOURS: Simulacro de Examen + Corregir errores", hours: 5.0, desc: "Simulación real con cronómetro. Análisis minucioso de fallos." },
-              { id: "p2_19", subject: "mates", prio: 1, title: "Repaso suave de Mates I", hours: 1.0, desc: "Revisión rápida de fórmulas." }
+              { id: "d27nov_mates", subject: "mates", hours: 2.5, title: "Mates I: Tema 5 (Ejercicios de ortogonalidad)", desc: "Problemas integrales Tema 5." },
+              { id: "d27nov_fisica", subject: "fisica", hours: 1.5, title: "Física: Dinámica relativista final", desc: "Revisión de ejercicios clave." },
+              { id: "d27nov_prog", subject: "prog", hours: 2.0, title: "Prog I: Práctica de C (16:30 - 18:30)", desc: "Práctica obligatoria de laboratorio." }
             ]
           },
           {
-            period: "Jueves 3 Diciembre (Pre-Examen)",
+            period: "Sábado 28 de Noviembre",
             tasks: [
-              { id: "p2_20", subject: "prog", prio: 3, title: "Repaso final: Punteros, Cadenas y Structs (Mañana)", hours: 4.0, desc: "Revisión de dudas de última hora." },
-              { id: "p2_21", subject: "comp", prio: 4, title: "Práctica Computadores (15:00 - 17:00)", hours: 2.0, desc: "Última práctica antes del examen de prog." }
+              { id: "d28nov_prog", subject: "prog", hours: 2.5, title: "Prog I: Structs (Estructuras de datos en C)", desc: "Definición, typedef, arrays de structs." },
+              { id: "d28nov_mates", subject: "mates", hours: 2.0, title: "Mates I: Tema 6 (Inicio Autovalores y Autovectores)", desc: "Polinomio característico y autovalores." },
+              { id: "d28nov_fisica", subject: "fisica", hours: 1.0, title: "Física: Problemas variados de Relatividad", desc: "Exámenes anteriores." },
+              { id: "d28nov_comp", subject: "comp", hours: 0.5, title: "Computadores: Tema 11 (Ensamblador 68020)", desc: "Instrucciones de transferencia y aritméticas." }
             ]
           },
           {
-            period: "Viernes 4 Diciembre — DIA DEL EXAMEN",
+            period: "Domingo 29 de Noviembre (Sesión 4h)",
+            tasks: [
+              { id: "d29nov_prog", subject: "prog", hours: 2.0, title: "Prog I: Ejercicios de punteros a structs", desc: "Operador -> y paso de structs a funciones." },
+              { id: "d29nov_mates", subject: "mates", hours: 2.0, title: "Mates I: Tema 6 (Subespacios propios y multiplicidad)", desc: "Multiplicidad algebraica y geométrica." }
+            ]
+          },
+          {
+            period: "Lunes 30 de Noviembre",
+            tasks: [
+              { id: "d30nov_prog", subject: "prog", hours: 2.5, title: "Prog I: Ficheros de texto (fopen, fprintf, fscanf)", desc: "Lectura y escritura de ficheros." },
+              { id: "d30nov_mates", subject: "mates", hours: 2.0, title: "Mates I: Tema 6 (Criterio de diagonalización)", desc: "Condiciones de matriz diagonalizable." },
+              { id: "d30nov_fisica", subject: "fisica", hours: 1.0, title: "Física: Intro Cuántica (Radiación cuerpo negro)", desc: "Hipótesis de Planck." },
+              { id: "d30nov_comp", subject: "comp", hours: 0.5, title: "Computadores: Tema 11 (Saltos condicionales)", desc: "Bcc, BRA, CMP en 68020." }
+            ]
+          },
+          {
+            period: "Martes 1 de Diciembre",
+            tasks: [
+              { id: "d01dic_prog", subject: "prog", hours: 2.5, title: "Prog I: Ficheros binarios (fread, fwrite) y examen", desc: "Problemas completos de examen." },
+              { id: "d01dic_mates", subject: "mates", hours: 2.0, title: "Mates I: Tema 6 (Matriz de paso y diagonalización)", desc: "Cálculo de P y D (D = P⁻¹ A P)." },
+              { id: "d01dic_fisica", subject: "fisica", hours: 1.0, title: "Física: Efecto Fotoeléctrico", desc: "Ecuación de Einstein del fotoefecto." },
+              { id: "d01dic_comp", subject: "comp", hours: 0.5, title: "Computadores: Tema 11 (Problemas ensamblador)", desc: "Ejercicios breves de código." }
+            ]
+          },
+          {
+            period: "Miércoles 2 de Diciembre",
+            tasks: [
+              { id: "d02dic_prog", subject: "prog", hours: 5.0, title: "Prog I: SIMULACRO COMPLETO DE EXAMEN (5h)", desc: "Examen 3h sin apuntes + 2h corrección minuciosa." },
+              { id: "d02dic_mates", subject: "mates", hours: 1.0, title: "Mates I: Repaso suave de fórmulas Tema 6", desc: "Lectura tranquila." }
+            ]
+          },
+          {
+            period: "Jueves 3 de Diciembre",
+            tasks: [
+              { id: "d03dic_prog", subject: "prog", hours: 4.0, title: "Prog I: Repaso final de punteros, cadenas y structs", desc: "Resolución de dudas finales." },
+              { id: "d03dic_comp", subject: "comp", hours: 2.0, title: "Computadores: Práctica 4 (15:00 - 17:00)", desc: "Práctica de laboratorio." }
+            ]
+          },
+          {
+            period: "Viernes 4 de Diciembre - EXAMEN PROGRAMACIÓN I",
             isExam: true,
             tasks: [
-              { id: "p2_22", subject: "prog", prio: 3, title: "🎯 EXAMEN PARCIAL DE FUNDAMENTOS DE PROGRAMACIÓN I", hours: 0, desc: "Examen oficial de C. Por la tarde: DESCANSO TOTAL." }
+              { id: "d04dic_exam_prog", subject: "prog", hours: 2.5, title: "📝 EXAMEN PARCIAL FUNDAMENTOS DE PROGRAMACIÓN I", desc: "Lenguaje C completo. ¡Por la tarde descansas!" }
             ]
           },
           {
-            period: "Sábado 5 Diciembre",
+            period: "Sábado 5 de Diciembre",
             isRest: true,
             tasks: [
-              { id: "p2_23", subject: "libre", prio: 0, title: "¡DÍA LIBRE! Descanso tras parcial de Prog", hours: 0, desc: "Desconexión para recargar energías." }
+              { id: "d05dic_libre", subject: "libre", hours: 0, title: "Día Libre (Descanso post-examen Prog)", desc: "Desconexión total para recargar energía." }
             ]
           }
         ]
       },
       {
         phaseId: "fase3",
-        phaseTitle: "Fase 3: Ataque Mates y Física",
-        dates: "6 - 14 Diciembre 2026",
-        badge: "Consolidación de prioridades #1 y #2",
+        phaseTitle: "Fase 3: Ataque a Mates I y Física",
+        dates: "6 - 14 Dic 2026",
+        badge: "Día a día: Mates I (Prioridad #1), Cuántica y Pila 68020",
         groups: [
           {
-            period: "Domingo 6 Diciembre (Sesión 4h)",
+            period: "Domingo 6 de Diciembre (Sesión 4h)",
             tasks: [
-              { id: "p3_1", subject: "fisica", prio: 2, title: "Física: Cuántica II", hours: 2.0, desc: "Hipótesis de De Broglie y principio de incertidumbre." },
-              { id: "p3_2", subject: "mates", prio: 1, title: "Mates: Repaso amplio de Temas 3 y 4", hours: 2.0, desc: "Matrices, sistemas y espacio vectorial Rn." }
+              { id: "d06dic_fisica", subject: "fisica", hours: 2.0, title: "Física: Dualidad onda-corpúsculo y De Broglie", desc: "Longitud de onda de De Broglie." },
+              { id: "d06dic_mates", subject: "mates", hours: 2.0, title: "Mates I: Repaso temas 3 y 4 (Matrices y Rn)", desc: "Problemas tipo examen." }
             ]
           },
           {
-            period: "7, 8, 9 y 11 Diciembre (6h diarias)",
+            period: "Lunes 7 de Diciembre",
             tasks: [
-              { id: "p3_3", subject: "mates", prio: 1, title: "Mates I: Problemas intensivos de los 4 temas", hours: 2.5, desc: "Rotación diaria de temas (3, 4, 5, 6) + 1 día de mezcla global." },
-              { id: "p3_4", subject: "fisica", prio: 2, title: "Física: Dualidad, Schrödinger y Pozos de potencial", hours: 2.0, desc: "Ecuación de Schrödinger 1D y pozo infinito." },
-              { id: "p3_5", subject: "comp", prio: 4, title: "Computadores: Tema 12 (Pila y problemas de Ensamblador)", hours: 1.5, desc: "Subrutinas, paso de parámetros en la pila del 68020." }
+              { id: "d07dic_mates", subject: "mates", hours: 2.5, title: "Mates I: Problemas Tema 3 (Matrices y Sistemas)", desc: "Resolución de exámenes reales." },
+              { id: "d07dic_fisica", subject: "fisica", hours: 2.0, title: "Física: Princ. Incertidumbre Heisenberg + Schrödinger", desc: "Ecuación de Schrödinger independiente del tiempo." },
+              { id: "d07dic_comp", subject: "comp", hours: 1.5, title: "Computadores: Tema 12 (Pila y registros 68020)", desc: "Estructura de la pila y puntero SP." }
             ]
           },
           {
-            period: "Jueves 10 Diciembre",
+            period: "Martes 8 de Diciembre",
             tasks: [
-              { id: "p3_6", subject: "comp", prio: 4, title: "Práctica Computadores (15:00 - 17:00)", hours: 2.0, desc: "Laboratorio final de Computadores." },
-              { id: "p3_7", subject: "mates", prio: 1, title: "Estudio Mañana: Mates I", hours: 2.5, desc: "Ejercicios de examen." },
-              { id: "p3_8", subject: "fisica", prio: 2, title: "Estudio Mañana: Física", hours: 1.5, desc: "Problemas de pozos y barreras." }
+              { id: "d08dic_mates", subject: "mates", hours: 2.5, title: "Mates I: Problemas Tema 4 (Rn subespacios)", desc: "Bases, dimensiones y ecuaciones." },
+              { id: "d08dic_fisica", subject: "fisica", hours: 2.0, title: "Física: Pozo de potencial infinito 1D", desc: "Autovalores de energía y funciones de onda." },
+              { id: "d08dic_comp", subject: "comp", hours: 1.5, title: "Computadores: Tema 12 (Instrucciones PUSH/POP)", desc: "Subrutinas y retorno BSR/RTS." }
             ]
           },
           {
-            period: "Sábado 12 Diciembre (Simulacro Mates)",
+            period: "Miércoles 9 de Diciembre",
             tasks: [
-              { id: "p3_9", subject: "mates", prio: 1, title: "Simulacro Completo de Matemáticas I (3h) + Corrección (1h)", hours: 4.0, desc: "Condiciones reales de examen sin mirar apuntes." },
-              { id: "p3_10", subject: "fisica", prio: 2, title: "Física: Repaso global y resolución de dudas", hours: 2.0, desc: "Revisión de problemas clave." }
+              { id: "d09dic_mates", subject: "mates", hours: 2.5, title: "Mates I: Problemas Tema 5 (Ortogonalidad)", desc: "Gram-Schmidt y proyecciones." },
+              { id: "d09dic_fisica", subject: "fisica", hours: 2.0, title: "Física: Pozo finito y Escalón de potencial", desc: "Efecto túnel y transmisión." },
+              { id: "d09dic_comp", subject: "comp", hours: 1.5, title: "Computadores: Tema 12 (Paso de parámetros en pila)", desc: "LINK y UNLK en subrutinas." }
             ]
           },
           {
-            period: "Domingo 13 Diciembre (Simulacro Física)",
+            period: "Jueves 10 de Diciembre",
             tasks: [
-              { id: "p3_11", subject: "fisica", prio: 2, title: "Simulacro Completo de Física (3h) + Corrección (1h)", hours: 4.0, desc: "Simulación de examen de Relatividad y Cuántica." },
-              { id: "p3_12", subject: "mates", prio: 1, title: "Mates I: Ajustes de fallos del simulacro", hours: 1.0, desc: "Revisar errores cometidos." },
-              { id: "p3_13", subject: "comp", prio: 4, title: "Computadores: Repaso rápido de conceptos", hours: 1.0, desc: "Revisión de instrucciones." }
+              { id: "d10dic_mates", subject: "mates", hours: 2.5, title: "Mates I: Ejercicios combinados temas 3 a 5", desc: "Simulación por partes." },
+              { id: "d10dic_fisica", subject: "fisica", hours: 1.5, title: "Física: Schrödinger (Ejercicios resueltos)", desc: "Problemas integrales." },
+              { id: "d10dic_comp", subject: "comp", hours: 2.0, title: "Computadores: Práctica 5 (15:00 - 17:00)", desc: "Última práctica de laboratorio." }
             ]
           },
           {
-            period: "Lunes 14 Diciembre (Último día de preparación)",
+            period: "Viernes 11 de Diciembre",
             tasks: [
-              { id: "p3_14", subject: "fisica", prio: 2, title: "Física: Fórmulas y Errores Típicos", hours: 2.5, desc: "Repaso activo del formulario y unidades." },
-              { id: "p3_15", subject: "mates", prio: 1, title: "Mates I: Repaso de lo que falle", hours: 2.5, desc: "Últimos ajustes en diagonalización u ortogonalidad." },
-              { id: "p3_16", subject: "comp", prio: 4, title: "Computadores: Problemas rápidos", hours: 1.0, desc: "Repaso ligero." }
+              { id: "d11dic_mates", subject: "mates", hours: 2.5, title: "Mates I: Problemas Tema 6 (Diagonalización)", desc: "Exámenes de diagonalización." },
+              { id: "d11dic_fisica", subject: "fisica", hours: 2.0, title: "Física: Cuántica (Repaso general problemas)", desc: "Resolución de dudas." },
+              { id: "d11dic_comp", subject: "comp", hours: 1.5, title: "Computadores: Tema 12 (Problemas de ensamblador)", desc: "Programas de subrutinas completas." }
+            ]
+          },
+          {
+            period: "Sábado 12 de Diciembre (Simulacro Mates I)",
+            tasks: [
+              { id: "d12dic_mates", subject: "mates", hours: 4.0, title: "Mates I: SIMULACRO COMPLETO DE MATEMÁTICAS I", desc: "3h Examen en tiempo real + 1h corrección de fallos." },
+              { id: "d12dic_fisica", subject: "fisica", hours: 2.0, title: "Física: Problemas de Cuántica y Relatividad", desc: "Ajustes tras el simulacro." }
+            ]
+          },
+          {
+            period: "Domingo 13 de Diciembre (Simulacro Física)",
+            tasks: [
+              { id: "d13dic_fisica", subject: "fisica", hours: 4.0, title: "Física: SIMULACRO COMPLETO DE FÍSICA", desc: "3h Examen en tiempo real + 1h corrección." },
+              { id: "d13dic_mates", subject: "mates", hours: 1.0, title: "Mates I: Repaso rápido de fallos del simulacro", desc: "Corrección de errores." },
+              { id: "d13dic_comp", subject: "comp", hours: 1.0, title: "Computadores: Repaso pila y registros 68020", desc: "Esquemas rápidos de subrutinas." }
+            ]
+          },
+          {
+            period: "Lunes 14 de Diciembre (Pre-Exámenes)",
+            tasks: [
+              { id: "d14dic_fisica", subject: "fisica", hours: 2.5, title: "Física: Formulario final y errores típicos", desc: "Revisión en frío de ecuaciones." },
+              { id: "d14dic_mates", subject: "mates", hours: 2.5, title: "Mates I: Repaso de puntos débiles detectados", desc: "Último pulido antes del parcial." },
+              { id: "d14dic_comp", subject: "comp", hours: 1.0, title: "Computadores: Revisión de sintaxis ensamblador", desc: "Problemas breves de código." }
             ]
           }
         ]
       },
       {
-        phaseId: "fase4",
-        phaseTitle: "Semana de Exámenes Finales",
-        dates: "15 - 17 Diciembre 2026",
-        badge: "Sprint final y ejecución",
+        phaseId: "semana_examenes",
+        phaseTitle: "Semana de Exámenes Parciales",
+        dates: "15 - 17 Dic 2026",
+        badge: "Día a día: Física (15 Dic), Mates I (16 Dic), Computadores (17 Dic)",
         groups: [
           {
-            period: "Martes 15 Diciembre — PARCIAL FÍSICA",
+            period: "Martes 15 de Diciembre - EXAMEN DE FÍSICA",
             isExam: true,
             tasks: [
-              { id: "p4_1", subject: "fisica", prio: 2, title: "Mañana: Física - Repaso muy ligero", hours: 2.0, desc: "Solo conceptos clave, sin agobiarse." },
-              { id: "p4_2", subject: "fisica", prio: 2, title: "🎯 EXAMEN FÍSICA (16:30, Aula 33)", hours: 0, desc: "¡A por ello! Mantén la calma." },
-              { id: "p4_3", subject: "mates", prio: 1, title: "Noche: Mates I - 1-2h tranquilas de repaso", hours: 1.5, desc: "Repaso visual para asentarlo antes de dormir." }
+              { id: "d15dic_fisica_prep", subject: "fisica", hours: 2.0, title: "Mañana: Repaso ligero de Física", desc: "Revisar fórmulas tranquilamente." },
+              { id: "d15dic_fisica_exam", subject: "fisica", hours: 2.5, title: "📝 EXAMEN DE FÍSICA (16:30 - Aula 33)", desc: "Parcial Ondas y Física Moderna." },
+              { id: "d15dic_mates_night", subject: "mates", hours: 1.5, title: "Noche: Mates I (1.5h tranquilas)", desc: "Repaso relajado antes de dormir." }
             ]
           },
           {
-            period: "Miércoles 16 Diciembre — PARCIAL MATES I",
+            period: "Miércoles 16 de Diciembre - EXAMEN DE MATEMÁTICAS I",
             isExam: true,
             tasks: [
-              { id: "p4_4", subject: "mates", prio: 1, title: "Mañana: Mates I - Repaso de fórmulas y tipos de ejercicio", hours: 2.0, desc: "Repaso previo al examen." },
-              { id: "p4_5", subject: "mates", prio: 1, title: "🎯 EXAMEN MATEMÁTICAS I", hours: 0, desc: "Prioridad #1 del cuatrimestre." },
-              { id: "p4_6", subject: "comp", prio: 4, title: "Tarde/Noche: Computadores (3h)", hours: 3.0, desc: "Tema 13: Terminales + Problemas de ensamblador M68k." }
+              { id: "d16dic_mates_prep", subject: "mates", hours: 2.0, title: "Mañana: Mates I (Repaso fórmulas y problemas)", desc: "Última revisión en frío." },
+              { id: "d16dic_mates_exam", subject: "mates", hours: 2.5, title: "📝 EXAMEN DE MATEMÁTICAS I (Prioridad #1)", desc: "Temas 3 a 6. ¡A por todas!" },
+              { id: "d16dic_comp_night", subject: "comp", hours: 3.0, title: "Tarde/Noche: Computadores Tema 13 (Terminales)", desc: "Terminales y ensamblador 68020." }
             ]
           },
           {
-            period: "Jueves 17 Diciembre — PARCIAL COMPUTADORES",
+            period: "Jueves 17 de Diciembre - EXAMEN DE COMPUTADORES",
             isExam: true,
             tasks: [
-              { id: "p4_7", subject: "comp", prio: 4, title: "Mañana: Computadores - Problemas 68020 y Pila", hours: 2.5, desc: "Solo lo esencial, sin empezar temas nuevos." },
-              { id: "p4_8", subject: "comp", prio: 4, title: "🎯 EXAMEN FUNDAMENTOS DE COMPUTADORES", hours: 0, desc: "¡Último examen! Fin del periodo de parciales." }
+              { id: "d17dic_comp_exam", subject: "comp", hours: 3.0, title: "📝 EXAMEN DE FUNDAMENTOS DE COMPUTADORES", desc: "Problemas 68020, pila y direccionamiento." }
             ]
           }
         ]
@@ -702,176 +800,252 @@
     ];
 
     /* ==========================================================================
-       APP STATE & STORAGE MANAGEMENT
+       2. APP STATE & PERSISTENCE
        ========================================================================== */
-    const STORAGE_KEY = "alberto_study_plan_2026_v1";
-    let completedTasks = new Set();
-    let currentView = "phases"; // 'phases', 'pending', 'exams'
-    let currentSubjectFilter = "all"; // 'all', 'mates', 'fisica', 'prog', 'comp'
-    let collapsedPhases = new Set(); // Stores IDs of closed accordions
+    let taskState = {}; // Structure: { taskId: { loggedHours: number, extraHours: number } }
+    let currentLogoUrl = "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=120&auto=format&fit=crop&q=80";
+    let currentView = "phases"; // "phases", "pending", "exams"
+    let currentSubjectFilter = "all";
+    const collapsedPhases = new Set();
 
     function loadState() {
       try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed)) {
-            completedTasks = new Set(parsed);
-          }
+        const savedState = localStorage.getItem("alberto_study_plan_state_v2");
+        if (savedState) {
+          taskState = JSON.parse(savedState);
+        }
+        const savedLogo = localStorage.getItem("alberto_study_plan_logo");
+        if (savedLogo) {
+          currentLogoUrl = savedLogo;
         }
       } catch (e) {
-        console.error("Error loading localStorage:", e);
+        console.error("Error al cargar el estado:", e);
       }
     }
 
     function saveState() {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(completedTasks)));
+        localStorage.setItem("alberto_study_plan_state_v2", JSON.stringify(taskState));
+        localStorage.setItem("alberto_study_plan_logo", currentLogoUrl);
       } catch (e) {
-        console.error("Error saving localStorage:", e);
+        console.error("Error al guardar el estado:", e);
       }
     }
 
-    /* ==========================================================================
-       HELPERS & UI UTILS
-       ========================================================================== */
-    const SUBJECT_CONFIG = {
-      mates: {
-        name: "Mates I",
-        colorClass: "bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800",
-        badgeColor: "bg-indigo-600",
-        prioText: "Prio 1",
-        prioClass: "bg-indigo-600 text-white"
-      },
-      fisica: {
-        name: "Física",
-        colorClass: "bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border-amber-200 dark:border-amber-800",
-        badgeColor: "bg-amber-600",
-        prioText: "Prio 2",
-        prioClass: "bg-amber-600 text-white"
-      },
-      prog: {
-        name: "Prog (C)",
-        colorClass: "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800",
-        badgeColor: "bg-emerald-600",
-        prioText: "Prio 3",
-        prioClass: "bg-emerald-600 text-white"
-      },
-      comp: {
-        name: "Computadores",
-        colorClass: "bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 border-sky-200 dark:border-sky-800",
-        badgeColor: "bg-sky-600",
-        prioText: "Prio 4",
-        prioClass: "bg-sky-600 text-white"
-      },
-      libre: {
-        name: "Descanso",
-        colorClass: "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border-slate-200 dark:border-slate-700",
-        badgeColor: "bg-slate-400",
-        prioText: "Libre",
-        prioClass: "bg-slate-500 text-white"
+    function getTaskData(taskId) {
+      if (!taskState[taskId]) {
+        taskState[taskId] = { loggedHours: 0, extraHours: 0 };
       }
-    };
+      return taskState[taskId];
+    }
 
-    function showToast(message, type = "success") {
+    function showToast(message, type = "info") {
       const container = document.getElementById("toast-container");
+      if (!container) return;
       const toast = document.createElement("div");
-      
-      const icon = type === "success" ? "check-circle" : "info";
-      const bgColor = type === "success" ? "bg-emerald-800 text-white" : "bg-slate-800 text-white";
-
-      toast.className = `pointer-events-auto flex items-center gap-2 px-4 py-3 rounded-xl text-xs font-semibold shadow-xl border border-white/10 ${bgColor} transform translate-y-4 opacity-0 transition-all duration-300`;
-      toast.innerHTML = `<i data-lucide="${icon}" class="w-4 h-4"></i> <span>${message}</span>`;
-
+      toast.className = `px-4 py-2.5 rounded-xl text-xs font-bold text-white shadow-lg backdrop-blur-md transition-all transform translate-y-2 opacity-0 flex items-center gap-2 pointer-events-auto ${
+        type === "success" ? "bg-emerald-600/90" : type === "warning" ? "bg-amber-600/90" : "bg-slate-800/90"
+      }`;
+      toast.innerHTML = `<span>${message}</span>`;
       container.appendChild(toast);
-      lucide.createIcons();
-
       requestAnimationFrame(() => {
-        toast.classList.remove("translate-y-4", "opacity-0");
+        toast.classList.remove("translate-y-2", "opacity-0");
       });
-
       setTimeout(() => {
-        toast.classList.add("translate-y-4", "opacity-0");
-        setTimeout(() => toast.remove(), 300);
+        toast.classList.add("translate-y-2", "opacity-0");
+        setTimeout(() => toast.remove(), 200);
       }, 3000);
     }
 
+    function findTaskById(taskId) {
+      for (let phase of STUDY_PLAN) {
+        for (let group of phase.groups) {
+          for (let task of group.tasks) {
+            if (task.id === taskId) return task;
+          }
+        }
+      }
+      return null;
+    }
+
     /* ==========================================================================
-       STATS & PROGRESS CALCULATOR
+       3. STATS & HOUR CALCULATIONS
        ========================================================================== */
     function calculateStats() {
-      let totalTasks = 0;
-      let completedCount = 0;
-      let totalHours = 0;
-      let completedHours = 0;
+      let totalPlannedHours = 0;
+      let totalLoggedHours = 0;
+      let totalDebtHours = 0;
 
       const subjectStats = {
-        mates: { total: 0, done: 0 },
-        fisica: { total: 0, done: 0 },
-        prog: { total: 0, done: 0 },
-        comp: { total: 0, done: 0 }
+        mates: { planned: 0, logged: 0 },
+        fisica: { planned: 0, logged: 0 },
+        prog: { planned: 0, logged: 0 },
+        comp: { planned: 0, logged: 0 }
       };
 
       STUDY_PLAN.forEach(phase => {
         phase.groups.forEach(group => {
           group.tasks.forEach(task => {
-            if (task.subject === "libre") return; // Skip rest days from stats
+            if (task.subject === "libre") return;
 
-            totalTasks++;
-            totalHours += task.hours;
+            const data = getTaskData(task.id);
+            const targetHours = task.hours + (data.extraHours || 0);
 
-            if (subjectStats[task.subject]) {
-              subjectStats[task.subject].total++;
+            totalPlannedHours += targetHours;
+            totalLoggedHours += data.loggedHours;
+
+            if (data.loggedHours < targetHours) {
+              totalDebtHours += (targetHours - data.loggedHours);
             }
 
-            if (completedTasks.has(task.id)) {
-              completedCount++;
-              completedHours += task.hours;
-              if (subjectStats[task.subject]) {
-                subjectStats[task.subject].done++;
-              }
+            if (subjectStats[task.subject]) {
+              subjectStats[task.subject].planned += targetHours;
+              subjectStats[task.subject].logged += data.loggedHours;
             }
           });
         });
       });
 
-      // Update Overall UI
-      const overallPct = totalTasks > 0 ? Math.round((completedCount / totalTasks) * 100) : 0;
+      const overallPct = totalPlannedHours > 0 ? Math.min(100, Math.round((totalLoggedHours / totalPlannedHours) * 100)) : 0;
+      
       document.getElementById("overall-percentage").innerText = `${overallPct}%`;
       document.getElementById("overall-bar").style.width = `${overallPct}%`;
-      document.getElementById("completed-count").innerText = completedCount;
-      document.getElementById("total-count").innerText = totalTasks;
-      document.getElementById("completed-hours").innerText = completedHours.toFixed(1);
-      document.getElementById("total-hours").innerText = totalHours.toFixed(1);
+      document.getElementById("completed-hours").innerText = `${totalLoggedHours.toFixed(1)} h`;
+      document.getElementById("total-hours").innerText = `${totalPlannedHours.toFixed(1)} h`;
+      document.getElementById("pending-hours-total").innerText = `${totalDebtHours.toFixed(1)} h`;
 
-      // Pending Count Badge
-      const pendingCount = totalTasks - completedCount;
-      document.getElementById("pending-badge").innerText = pendingCount;
-
-      // Update Subject UI
+      // Update Subject Bars & Subject Debt Labels
       Object.keys(subjectStats).forEach(subj => {
-        const data = subjectStats[subj];
-        const pct = data.total > 0 ? Math.round((data.done / data.total) * 100) : 0;
-        
+        const s = subjectStats[subj];
+        const pct = s.planned > 0 ? Math.min(100, Math.round((s.logged / s.planned) * 100)) : 0;
+        const pendingSubjDebt = Math.max(0, s.planned - s.logged);
+
         const bar = document.getElementById(`bar-${subj}`);
         const textCount = document.getElementById(`text-${subj}-count`);
         const textPct = document.getElementById(`text-${subj}-pct`);
+        const textDebt = document.getElementById(`text-${subj}-debt`);
 
         if (bar) bar.style.width = `${pct}%`;
-        if (textCount) textCount.innerText = `${data.done} / ${data.total} tareas`;
+        if (textCount) textCount.innerText = `${s.logged.toFixed(1)} / ${s.planned.toFixed(1)} h`;
         if (textPct) textPct.innerText = `${pct}%`;
+        if (textDebt) {
+          if (pendingSubjDebt > 0) {
+            textDebt.innerText = `Faltan ${pendingSubjDebt.toFixed(1)}h`;
+            textDebt.className = "text-[11px] font-bold text-amber-600 dark:text-amber-400";
+          } else {
+            textDebt.innerText = "Al día";
+            textDebt.className = "text-[11px] font-semibold text-emerald-600 dark:text-emerald-400";
+          }
+        }
       });
     }
 
     /* ==========================================================================
-       RENDER FUNCTIONS
+       4. REDISTRIBUTION ENGINE LOGIC (SUBJECT-SPECIFIC)
        ========================================================================== */
+    function moveDebtToNextTask(currentTaskId, debtAmount) {
+      const currentTaskObj = findTaskById(currentTaskId);
+      if (!currentTaskObj) return;
 
-    // Single Task Card HTML Generator
-    function renderTaskCard(task, groupPeriod) {
-      const isChecked = completedTasks.has(task.id);
+      const targetSubject = currentTaskObj.subject;
+      const subjConf = SUBJECT_CONFIG[targetSubject] || SUBJECT_CONFIG.libre;
+
+      let foundCurrent = false;
+      let targetTask = null;
+
+      for (let phase of STUDY_PLAN) {
+        for (let group of phase.groups) {
+          for (let task of group.tasks) {
+            if (foundCurrent) {
+              if (task.subject === targetSubject) {
+                targetTask = task;
+                break;
+              }
+            }
+            if (task.id === currentTaskId) {
+              foundCurrent = true;
+            }
+          }
+          if (targetTask) break;
+        }
+        if (targetTask) break;
+      }
+
+      if (targetTask) {
+        const targetData = getTaskData(targetTask.id);
+        targetData.extraHours = (targetData.extraHours || 0) + debtAmount;
+        saveState();
+        renderApp();
+        showToast(`+${debtAmount.toFixed(1)}h de ${subjConf.name} pasadas a la próxima sesión de ${subjConf.name} ("${targetTask.title}")`, "success");
+      } else {
+        showToast(`No hay más sesiones futuras de ${subjConf.name} en el plan`, "info");
+      }
+    }
+
+    function distributeDebtInPhase(phaseId, currentTaskId, debtAmount) {
+      const currentTaskObj = findTaskById(currentTaskId);
+      if (!currentTaskObj) return;
+
+      const targetSubject = currentTaskObj.subject;
+      const subjConf = SUBJECT_CONFIG[targetSubject] || SUBJECT_CONFIG.libre;
+
+      const phase = STUDY_PLAN.find(p => p.phaseId === phaseId);
+      if (!phase) return;
+
+      const futureTasks = [];
+      let foundCurrent = false;
+
+      // Look first within current phase for tasks of the same subject
+      phase.groups.forEach(g => {
+        g.tasks.forEach(t => {
+          if (foundCurrent && t.subject === targetSubject) {
+            futureTasks.push(t);
+          }
+          if (t.id === currentTaskId) {
+            foundCurrent = true;
+          }
+        });
+      });
+
+      // If no remaining session for this subject in phase, look globally across remaining plan
+      if (futureTasks.length === 0) {
+        let globalFound = false;
+        STUDY_PLAN.forEach(p => {
+          p.groups.forEach(g => {
+            g.tasks.forEach(t => {
+              if (globalFound && t.subject === targetSubject) {
+                futureTasks.push(t);
+              }
+              if (t.id === currentTaskId) {
+                globalFound = true;
+              }
+            });
+          });
+        });
+      }
+
+      if (futureTasks.length === 0) {
+        showToast(`No hay más sesiones futuras de ${subjConf.name} en el plan`, "info");
+        return;
+      }
+
+      const splitHours = debtAmount / futureTasks.length;
+      futureTasks.forEach(t => {
+        const d = getTaskData(t.id);
+        d.extraHours = (d.extraHours || 0) + splitHours;
+      });
+
+      saveState();
+      renderApp();
+      showToast(`${debtAmount.toFixed(1)}h de ${subjConf.name} repartidas en ${futureTasks.length} sesión(es) de ${subjConf.name} (+${splitHours.toFixed(1)}h c/u)`, "success");
+    }
+
+    /* ==========================================================================
+       5. CARD & VIEW RENDERERS
+       ========================================================================== */
+    function renderTaskCard(task, phaseId, groupPeriod) {
       const conf = SUBJECT_CONFIG[task.subject] || SUBJECT_CONFIG.libre;
-
+      
       if (task.subject === "libre") {
         return `
           <div class="p-4 rounded-xl bg-gradient-to-r from-rose-50 to-amber-50 dark:from-rose-950/30 dark:to-amber-950/30 border border-rose-200/60 dark:border-rose-900/40 flex items-center justify-between">
@@ -887,387 +1061,443 @@
         `;
       }
 
-      return `
-        <div class="group relative p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-800/80 border ${isChecked ? 'border-emerald-200 dark:border-emerald-900/60 bg-emerald-50/20 dark:bg-emerald-950/10' : 'border-slate-200 dark:border-slate-700/80'} hover:border-indigo-300 dark:hover:border-indigo-600 transition-all duration-200 shadow-sm flex items-start gap-3">
-          
-          <!-- Custom Checkbox -->
-          <div class="pt-0.5">
-            <input type="checkbox" id="chk-${task.id}" data-task-id="${task.id}" class="checkbox-custom hidden" ${isChecked ? 'checked' : ''}>
-            <label for="chk-${task.id}" class="cursor-pointer flex items-center justify-center">
-              <div class="checkbox-box w-5 h-5 rounded-md border-2 border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 flex items-center justify-center transition-all">
-                <i data-lucide="check" class="w-3.5 h-3.5 text-white opacity-0 transform scale-75 transition-all"></i>
-              </div>
-            </label>
-          </div>
+      const data = getTaskData(task.id);
+      const extra = data.extraHours || 0;
+      const targetHours = task.hours + extra;
+      const logged = data.loggedHours || 0;
+      const debt = Math.max(0, targetHours - logged);
 
-          <!-- Content -->
-          <div class="flex-grow min-w-0">
-            <div class="flex flex-wrap items-center gap-2 mb-1">
-              <span class="text-[11px] font-bold px-2 py-0.5 rounded-md ${conf.colorClass} border">
+      const isCompleted = targetHours > 0 && logged >= targetHours;
+      const isPartial = logged > 0 && logged < targetHours;
+
+      return `
+        <div class="task-card relative p-4 rounded-xl bg-white dark:bg-slate-800/80 border ${isCompleted ? 'border-emerald-300 dark:border-emerald-800 bg-emerald-50/20 dark:bg-emerald-950/10' : isPartial ? 'border-amber-300 dark:border-amber-800 bg-amber-50/20 dark:bg-amber-950/10' : 'border-slate-200 dark:border-slate-700/80'} shadow-sm space-y-3">
+          
+          <!-- Header info -->
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-md ${conf.colorClass} border">
                 ${conf.name}
               </span>
-              
               <span class="text-[10px] font-bold px-1.5 py-0.5 rounded ${conf.prioClass}">
                 ${conf.prioText}
               </span>
-
-              ${task.hours > 0 ? `
-                <span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1 ml-auto">
-                  <i data-lucide="clock" class="w-3 h-3"></i> ${task.hours} h
+              ${extra > 0 ? `
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 flex items-center gap-1">
+                  <i data-lucide="plus-circle" class="w-3 h-3"></i> +${extra.toFixed(1)}h de ${conf.name}
                 </span>
               ` : ''}
             </div>
 
-            <h4 class="text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100 ${isChecked ? 'line-through text-slate-400 dark:text-slate-500' : ''} transition-colors">
+            <!-- Hours Status Pill -->
+            <div class="text-xs font-bold flex items-center gap-1.5 ${isCompleted ? 'text-emerald-600 dark:text-emerald-400' : isPartial ? 'text-amber-600 dark:text-amber-400' : 'text-slate-500 dark:text-slate-400'}">
+              <i data-lucide="${isCompleted ? 'check-circle-2' : isPartial ? 'clock' : 'circle'}" class="w-4 h-4"></i>
+              <span>${logged.toFixed(1)} / ${targetHours.toFixed(1)} h</span>
+            </div>
+          </div>
+
+          <!-- Title & Description -->
+          <div>
+            <h4 class="text-sm font-semibold text-slate-900 dark:text-slate-100 ${isCompleted ? 'line-through text-slate-400 dark:text-slate-500' : ''}">
               ${task.title}
             </h4>
-
-            ${task.desc ? `
-              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                ${task.desc}
-              </p>
-            ` : ''}
-
-            ${groupPeriod ? `
-              <div class="mt-2 text-[10px] font-medium text-slate-400 flex items-center gap-1">
-                <i data-lucide="calendar" class="w-3 h-3"></i> ${groupPeriod}
-              </div>
-            ` : ''}
+            ${task.desc ? `<p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">${task.desc}</p>` : ''}
+            ${groupPeriod ? `<div class="mt-1 text-[10px] text-slate-400">📅 ${groupPeriod}</div>` : ''}
           </div>
+
+          <!-- Interactive Hours Control Bar -->
+          <div class="pt-2 border-t border-slate-100 dark:border-slate-700/60 flex flex-wrap items-center justify-between gap-3">
+            
+            <!-- Quick Log Buttons -->
+            <div class="flex items-center gap-1">
+              <span class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mr-1">Registrar hoy:</span>
+              <button data-action="set-hours" data-task-id="${task.id}" data-val="0" class="px-2 py-1 text-[11px] font-semibold rounded-lg ${logged === 0 ? 'bg-slate-700 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200'} transition">0h</button>
+              <button data-action="set-hours" data-task-id="${task.id}" data-val="1.0" class="px-2 py-1 text-[11px] font-semibold rounded-lg ${logged === 1.0 ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200'} transition">1h</button>
+              <button data-action="set-hours" data-task-id="${task.id}" data-val="2.0" class="px-2 py-1 text-[11px] font-semibold rounded-lg ${logged === 2.0 ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200'} transition">2h</button>
+              <button data-action="set-hours" data-task-id="${task.id}" data-val="${targetHours}" class="px-2.5 py-1 text-[11px] font-bold rounded-lg ${isCompleted ? 'bg-emerald-600 text-white' : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-200'} transition">Completo (${targetHours.toFixed(1)}h)</button>
+            </div>
+
+            <!-- Manual Hours Stepper -->
+            <div class="flex items-center gap-1">
+              <button data-action="add-hours" data-task-id="${task.id}" data-step="-0.5" class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center justify-center">-</button>
+              <span class="text-xs font-bold w-10 text-center">${logged.toFixed(1)}h</span>
+              <button data-action="add-hours" data-task-id="${task.id}" data-step="0.5" class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center justify-center">+</button>
+            </div>
+
+          </div>
+
+          <!-- Hours Debt Redistribution Actions (Strictly Subject-Specific) -->
+          ${debt > 0 && logged > 0 ? `
+            <div class="p-2.5 rounded-xl bg-amber-100/60 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+              <span class="font-semibold text-amber-900 dark:text-amber-200 flex items-center gap-1">
+                <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-amber-600"></i> Faltan <strong>${debt.toFixed(1)}h de ${conf.name}</strong>
+              </span>
+              <div class="flex items-center gap-1.5">
+                <button data-action="shift-next" data-task-id="${task.id}" data-debt="${debt}" class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 text-amber-800 dark:text-amber-300 font-bold text-[11px] border border-amber-300 dark:border-amber-700 hover:bg-amber-50 shadow-sm transition">
+                  ⏩ Próxima sesión de ${conf.name}
+                </button>
+                <button data-action="shift-phase" data-task-id="${task.id}" data-phase-id="${phaseId}" data-debt="${debt}" class="px-2.5 py-1 rounded-lg bg-amber-600 text-white font-bold text-[11px] hover:bg-amber-700 shadow-sm transition">
+                  ⚖️ Repartir en ${conf.name}
+                </button>
+              </div>
+            </div>
+          ` : ''}
 
         </div>
       `;
     }
 
-    // Render Main Accordion View
     function renderPhasesView() {
       const container = document.getElementById("view-phases-container");
       container.innerHTML = "";
 
-      STUDY_PLAN.forEach((phase) => {
-        // Calculate phase progress
-        let phaseTotal = 0;
-        let phaseDone = 0;
+      STUDY_PLAN.forEach(phase => {
+        let phasePlanned = 0;
+        let phaseLogged = 0;
 
         phase.groups.forEach(g => {
           g.tasks.forEach(t => {
-            if (t.subject !== "libre") {
-              if (currentSubjectFilter === "all" || t.subject === currentSubjectFilter) {
-                phaseTotal++;
-                if (completedTasks.has(t.id)) phaseDone++;
-              }
+            if (t.subject !== "libre" && (currentSubjectFilter === "all" || t.subject === currentSubjectFilter)) {
+              const d = getTaskData(t.id);
+              const target = t.hours + (d.extraHours || 0);
+              phasePlanned += target;
+              phaseLogged += d.loggedHours;
             }
           });
         });
 
-        // Hide phase if filter hides all tasks
-        if (phaseTotal === 0 && currentSubjectFilter !== "all") return;
+        if (phasePlanned === 0 && currentSubjectFilter !== "all") return;
 
-        const phasePct = phaseTotal > 0 ? Math.round((phaseDone / phaseTotal) * 100) : 0;
+        const phasePct = phasePlanned > 0 ? Math.min(100, Math.round((phaseLogged / phasePlanned) * 100)) : 0;
         const isCollapsed = collapsedPhases.has(phase.phaseId);
 
-        const phaseCard = document.createElement("div");
-        phaseCard.className = "bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 rounded-2xl overflow-hidden shadow-sm transition-all";
-        
+        const card = document.createElement("div");
+        card.className = "bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 rounded-2xl overflow-hidden shadow-sm";
+
         let groupsHTML = "";
         phase.groups.forEach(group => {
-          // Filter group tasks
-          const filteredTasks = group.tasks.filter(t => currentSubjectFilter === "all" || t.subject === currentSubjectFilter || t.subject === "libre");
-          
-          if (filteredTasks.length === 0) return;
+          const filtered = group.tasks.filter(t => currentSubjectFilter === "all" || t.subject === currentSubjectFilter || t.subject === "libre");
+          if (filtered.length === 0) return;
+
+          let groupHoursTarget = 0;
+          let groupHoursLogged = 0;
+          filtered.forEach(t => {
+            if (t.subject !== "libre") {
+              const d = getTaskData(t.id);
+              groupHoursTarget += t.hours + (d.extraHours || 0);
+              groupHoursLogged += d.loggedHours;
+            }
+          });
+
+          const groupCompleted = groupHoursTarget > 0 && groupHoursLogged >= groupHoursTarget;
 
           groupsHTML += `
-            <div class="space-y-2.5">
-              <div class="flex items-center gap-2 pt-2">
-                <div class="h-2 w-2 rounded-full ${group.isExam ? 'bg-rose-500 animate-ping' : group.isRest ? 'bg-amber-400' : 'bg-indigo-500'}"></div>
-                <h3 class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
-                  ${group.period}
-                </h3>
+            <div class="p-4 rounded-2xl bg-slate-50/80 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-700/60 space-y-3">
+              <div class="flex items-center justify-between pb-2 border-b border-slate-200/60 dark:border-slate-700/60">
+                <div class="flex items-center gap-2">
+                  <div class="h-2.5 w-2.5 rounded-full ${group.isExam ? 'bg-rose-500 animate-pulse' : group.isRest ? 'bg-amber-400' : 'bg-indigo-500'}"></div>
+                  <h3 class="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">
+                    📅 ${group.period}
+                  </h3>
+                </div>
+                ${group.isRest ? `
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300">Descanso</span>
+                ` : `
+                  <span class="text-[11px] font-bold ${groupCompleted ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400'}">
+                    ${groupHoursLogged.toFixed(1)} / ${groupHoursTarget.toFixed(1)}h
+                  </span>
+                `}
               </div>
-              <div class="grid grid-cols-1 gap-2.5">
-                ${filteredTasks.map(t => renderTaskCard(t, null)).join('')}
+              <div class="grid grid-cols-1 gap-3">
+                ${filtered.map(t => renderTaskCard(t, phase.phaseId, null)).join('')}
               </div>
             </div>
           `;
         });
 
-        phaseCard.innerHTML = `
-          <!-- ACCORDION HEADER -->
-          <button data-accordion-id="${phase.phaseId}" class="accordion-trigger w-full px-5 py-4 flex items-center justify-between text-left bg-slate-50/50 dark:bg-slate-800/50 hover:bg-slate-100/60 dark:hover:bg-slate-750 transition border-b border-slate-200/60 dark:border-slate-700/60">
-            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-              <div>
-                <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  ${phase.phaseTitle}
-                  <span class="text-xs font-normal text-slate-500 dark:text-slate-400">(${phase.dates})</span>
-                </h2>
-                <span class="text-xs text-indigo-600 dark:text-indigo-400 font-medium">${phase.badge}</span>
-              </div>
+        card.innerHTML = `
+          <button data-accordion-id="${phase.phaseId}" class="accordion-trigger w-full px-5 py-4 flex items-center justify-between text-left bg-slate-50/50 dark:bg-slate-800/50 hover:bg-slate-100/60 dark:hover:bg-slate-750 border-b border-slate-200/60 dark:border-slate-700/60 transition">
+            <div>
+              <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                ${phase.phaseTitle}
+                <span class="text-xs font-normal text-slate-500 dark:text-slate-400">(${phase.dates})</span>
+              </h2>
+              <span class="text-xs text-indigo-600 dark:text-indigo-400 font-medium">${phase.badge}</span>
             </div>
 
             <div class="flex items-center gap-4">
-              <!-- Phase Mini Progress -->
               <div class="hidden sm:flex items-center gap-2">
                 <div class="w-24 bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
                   <div class="bg-indigo-600 h-full transition-all duration-300" style="width: ${phasePct}%"></div>
                 </div>
                 <span class="text-xs font-bold text-slate-600 dark:text-slate-300 w-9 text-right">${phasePct}%</span>
               </div>
-
-              <!-- Toggle Chevron Icon -->
               <div class="w-8 h-8 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 flex items-center justify-center text-slate-500 dark:text-slate-300">
                 <i data-lucide="chevron-down" class="w-4 h-4 transform transition-transform duration-200 ${isCollapsed ? '-rotate-90' : ''}"></i>
               </div>
             </div>
           </button>
 
-          <!-- ACCORDION BODY -->
-          <div id="acc-body-${phase.phaseId}" class="p-5 space-y-6 ${isCollapsed ? 'hidden' : ''}">
+          <div class="p-5 space-y-5 ${isCollapsed ? 'hidden' : ''}">
             ${groupsHTML}
           </div>
         `;
 
-        container.appendChild(phaseCard);
+        container.appendChild(card);
       });
 
-      lucide.createIcons();
+      if (window.lucide) lucide.createIcons();
     }
 
-    // Render Pending Tasks View
     function renderPendingView() {
       const container = document.getElementById("pending-items-list");
       container.innerHTML = "";
 
-      let pendingTasks = [];
-
+      let pendingCount = 0;
       STUDY_PLAN.forEach(phase => {
         phase.groups.forEach(group => {
           group.tasks.forEach(task => {
-            if (task.subject !== "libre" && !completedTasks.has(task.id)) {
-              if (currentSubjectFilter === "all" || task.subject === currentSubjectFilter) {
-                pendingTasks.push({ task, period: `${phase.phaseTitle} • ${group.period}` });
-              }
+            if (task.subject === "libre") return;
+            if (currentSubjectFilter !== "all" && task.subject !== currentSubjectFilter) return;
+
+            const data = getTaskData(task.id);
+            const target = task.hours + (data.extraHours || 0);
+            const logged = data.loggedHours || 0;
+
+            if (target > 0 && logged < target) {
+              pendingCount++;
+              const wrapper = document.createElement("div");
+              wrapper.innerHTML = renderTaskCard(task, phase.phaseId, group.period);
+              container.appendChild(wrapper.firstElementChild);
             }
           });
         });
       });
 
-      if (pendingTasks.length === 0) {
+      const badge = document.getElementById("pending-badge");
+      if (badge) badge.innerText = pendingCount;
+
+      if (pendingCount === 0) {
         container.innerHTML = `
           <div class="text-center py-12 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
-            <div class="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-3">
-              <i data-lucide="party-popper" class="w-6 h-6"></i>
-            </div>
-            <h3 class="text-sm font-bold text-slate-900 dark:text-white">¡No tienes tareas pendientes!</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Estás al día con todo el plan de estudio.</p>
+            <i data-lucide="sparkles" class="w-12 h-12 text-emerald-500 mx-auto mb-3"></i>
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200">¡Todo al día!</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">No tienes sesiones pendientes de completar para este filtro.</p>
           </div>
         `;
-      } else {
-        pendingTasks.forEach(item => {
-          container.innerHTML += renderTaskCard(item.task, item.period);
-        });
       }
-
-      lucide.createIcons();
+      if (window.lucide) lucide.createIcons();
     }
 
-    // Render Exams View
     function renderExamsView() {
       const container = document.getElementById("exams-items-list");
       container.innerHTML = "";
 
       const exams = [
-        {
-          date: "Viernes 4 de Diciembre 2026",
-          subject: "prog",
-          title: "Parcial: Fundamentos de Programación I",
-          topics: "Lenguaje C (Tipos, bucles, funciones, arrays, punteros, structs y ficheros)",
-          prio: "Prioridad 3"
-        },
-        {
-          date: "Martes 15 de Diciembre 2026 (16:30 - Aula 33)",
-          subject: "fisica",
-          title: "Parcial: Física (Ondas y Física Moderna)",
-          topics: "Relatividad especial y Mecánica Cuántica (Schrödinger, dualidad, pozos)",
-          prio: "Prioridad 2"
-        },
-        {
-          date: "Miércoles 16 de Diciembre 2026",
-          subject: "mates",
-          title: "Parcial: Matemáticas I",
-          topics: "Temas 3 a 6: Matrices y sistemas, espacio Rn, Ortogonalidad, Diagonalización",
-          prio: "Prioridad 1 (MÁXIMA)"
-        },
-        {
-          date: "Jueves 17 de Diciembre 2026",
-          subject: "comp",
-          title: "Parcial: Fundamentos de Computadores",
-          topics: "Temas 9 a 13: Motorola 68020/68000, direccionamiento, ensamblador, pila, terminales",
-          prio: "Prioridad 4"
-        }
+        { title: "Fundamentos de Programación I (C)", date: "Viernes 4 de Diciembre de 2026", prio: "Prioridad 3", subject: "prog", desc: "Temario: Lenguaje C completo (Tipos, bucles, funciones, arrays, punteros, structs y ficheros)." },
+        { title: "Física (Ondas y Física Moderna)", date: "Martes 15 de Diciembre de 2026 (16:30, Aula 33)", prio: "Prioridad 2", subject: "fisica", desc: "Temario: Relatividad especial, efecto fotoeléctrico, dualidad onda-corpúsculo y mecánica cuántica (Schrödinger y pozos)." },
+        { title: "Matemáticas I", date: "Miércoles 16 de Diciembre de 2026", prio: "Prioridad 1 (Máxima)", subject: "mates", desc: "Temario: Temas 3 a 6 (Matrices y sistemas, espacio vectorial Rn, ortogonalidad y diagonalización)." },
+        { title: "Fundamentos de Computadores", date: "Jueves 17 de Diciembre de 2026", prio: "Prioridad 4", subject: "comp", desc: "Temario: Temas 9 a 13 (Motorola 68020/68000, registros, direccionamiento, instrucciones, ensamblador, pila y terminales)." }
       ];
 
-      exams.forEach(ex => {
-        const conf = SUBJECT_CONFIG[ex.subject];
-        container.innerHTML += `
-          <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border-2 border-indigo-100 dark:border-slate-700 shadow-sm space-y-3 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-24 h-24 bg-indigo-500/5 rounded-full blur-2xl pointer-events-none"></div>
-            
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold px-2.5 py-1 rounded-lg ${conf.colorClass} border">
-                ${conf.name}
-              </span>
-              <span class="text-xs font-black px-2.5 py-1 rounded-lg ${conf.prioClass}">
-                ${ex.prio}
-              </span>
-            </div>
-
-            <div>
-              <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 block mb-1">📅 ${ex.date}</span>
-              <h3 class="text-base font-bold text-slate-900 dark:text-white">${ex.title}</h3>
-              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">${ex.topics}</p>
-            </div>
+      exams.forEach(exam => {
+        const conf = SUBJECT_CONFIG[exam.subject];
+        const card = document.createElement("div");
+        card.className = "p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3";
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold px-2.5 py-1 rounded-md ${conf.colorClass} border">${conf.name}</span>
+            <span class="text-xs font-bold px-2 py-0.5 rounded ${conf.prioClass}">${exam.prio}</span>
           </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="calendar" class="w-4 h-4 text-rose-500"></i> ${exam.title}
+            </h3>
+            <p class="text-xs font-semibold text-rose-600 dark:text-rose-400 mt-1">${exam.date}</p>
+          </div>
+          <p class="text-xs text-slate-600 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-slate-700">${exam.desc}</p>
         `;
+        container.appendChild(card);
       });
-
-      lucide.createIcons();
+      if (window.lucide) lucide.createIcons();
     }
 
-    // Master Render Trigger
     function renderApp() {
       calculateStats();
+      
+      const logoImg = document.getElementById("app-logo-img");
+      if (logoImg) logoImg.src = currentLogoUrl;
 
-      if (currentView === "phases") {
-        renderPhasesView();
-      } else if (currentView === "pending") {
-        renderPendingView();
-      } else if (currentView === "exams") {
-        renderExamsView();
-      }
+      // Update View Containers Visibility
+      const phasesContainer = document.getElementById("view-phases-container");
+      const pendingContainer = document.getElementById("view-pending-container");
+      const examsContainer = document.getElementById("view-exams-container");
+
+      phasesContainer.classList.toggle("hidden", currentView !== "phases");
+      pendingContainer.classList.toggle("hidden", currentView !== "pending");
+      examsContainer.classList.toggle("hidden", currentView !== "exams");
+
+      // Update View Tab Buttons
+      document.querySelectorAll(".view-btn").forEach(btn => {
+        const view = btn.dataset.view;
+        if (view === currentView) {
+          btn.className = "view-btn px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-sm shadow-indigo-500/20 transition flex items-center gap-1.5";
+        } else {
+          btn.className = "view-btn px-4 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition flex items-center gap-1.5";
+        }
+      });
+
+      renderPhasesView();
+      renderPendingView();
+      renderExamsView();
     }
 
     /* ==========================================================================
-       EVENT LISTENERS & INTERACTION LOGIC
+       6. EVENT LISTENERS & MODAL HANDLERS
        ========================================================================== */
-
     document.addEventListener("DOMContentLoaded", () => {
       loadState();
       renderApp();
 
-      // Delegation for Checkbox toggles
-      document.addEventListener("change", (e) => {
-        if (e.target && e.target.matches(".checkbox-custom")) {
-          const taskId = e.target.getAttribute("data-task-id");
-          if (e.target.checked) {
-            completedTasks.add(taskId);
-            showToast("Tarea completada", "success");
-          } else {
-            completedTasks.delete(taskId);
-          }
-          saveState();
+      // View Mode Tabs
+      document.getElementById("view-mode-buttons").addEventListener("click", (e) => {
+        const btn = e.target.closest(".view-btn");
+        if (btn) {
+          currentView = btn.dataset.view;
           renderApp();
         }
       });
 
-      // Accordion Toggle Handler
-      document.addEventListener("click", (e) => {
-        const trigger = e.target.closest(".accordion-trigger");
-        if (trigger) {
-          const phaseId = trigger.getAttribute("data-accordion-id");
-          if (collapsedPhases.has(phaseId)) {
-            collapsedPhases.delete(phaseId);
-          } else {
-            collapsedPhases.add(phaseId);
-          }
-          renderApp();
-        }
-      });
-
-      // View Mode Switcher
-      document.querySelectorAll("#view-mode-buttons .view-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const mode = btn.getAttribute("data-view");
-          currentView = mode;
-
-          // Update Button Styles
-          document.querySelectorAll("#view-mode-buttons .view-btn").forEach(b => {
-            b.className = "view-btn px-4 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition flex items-center gap-1.5";
-          });
-          btn.className = "view-btn px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-sm shadow-indigo-500/20 transition flex items-center gap-1.5";
-
-          // Show/Hide Containers
-          document.getElementById("view-phases-container").classList.toggle("hidden", mode !== "phases");
-          document.getElementById("view-pending-container").classList.toggle("hidden", mode !== "pending");
-          document.getElementById("view-exams-container").classList.toggle("hidden", mode !== "exams");
-
-          renderApp();
-        });
-      });
-
-      // Subject Filter Change
+      // Subject Filter
       document.getElementById("filter-subject").addEventListener("change", (e) => {
         currentSubjectFilter = e.target.value;
         renderApp();
       });
 
-      // Dark Mode Toggle
-      const themeBtn = document.getElementById("btn-theme");
-      themeBtn.addEventListener("click", () => {
-        document.documentElement.classList.toggle("dark");
-        const isDark = document.documentElement.classList.contains("dark");
-        localStorage.setItem("theme_preference", isDark ? "dark" : "light");
+      // Accordion Trigger & Task Card Actions (Delegated)
+      document.addEventListener("click", (e) => {
+        // Accordion Toggle
+        const accordionBtn = e.target.closest(".accordion-trigger");
+        if (accordionBtn) {
+          const id = accordionBtn.dataset.accordionId;
+          if (collapsedPhases.has(id)) {
+            collapsedPhases.delete(id);
+          } else {
+            collapsedPhases.add(id);
+          }
+          renderPhasesView();
+          return;
+        }
+
+        // Set Hours Directly
+        const setHoursBtn = e.target.closest('[data-action="set-hours"]');
+        if (setHoursBtn) {
+          const taskId = setHoursBtn.dataset.taskId;
+          const val = parseFloat(setHoursBtn.dataset.val);
+          const data = getTaskData(taskId);
+          data.loggedHours = val;
+          saveState();
+          renderApp();
+          return;
+        }
+
+        // Add/Subtract Hours Stepper
+        const addHoursBtn = e.target.closest('[data-action="add-hours"]');
+        if (addHoursBtn) {
+          const taskId = addHoursBtn.dataset.taskId;
+          const step = parseFloat(addHoursBtn.dataset.step);
+          const taskObj = findTaskById(taskId);
+          const data = getTaskData(taskId);
+          const target = taskObj ? taskObj.hours + (data.extraHours || 0) : 0;
+          
+          data.loggedHours = Math.max(0, Math.min(target + 10, (data.loggedHours || 0) + step));
+          saveState();
+          renderApp();
+          return;
+        }
+
+        // Shift Debt to Next Task
+        const shiftNextBtn = e.target.closest('[data-action="shift-next"]');
+        if (shiftNextBtn) {
+          const taskId = shiftNextBtn.dataset.taskId;
+          const debt = parseFloat(shiftNextBtn.dataset.debt);
+          moveDebtToNextTask(taskId, debt);
+          return;
+        }
+
+        // Shift Debt in Phase
+        const shiftPhaseBtn = e.target.closest('[data-action="shift-phase"]');
+        if (shiftPhaseBtn) {
+          const taskId = shiftPhaseBtn.dataset.taskId;
+          const phaseId = shiftPhaseBtn.dataset.phaseId;
+          const debt = parseFloat(shiftPhaseBtn.dataset.debt);
+          distributeDebtInPhase(phaseId, taskId, debt);
+          return;
+        }
       });
 
-      // Restore System Theme Preference
-      if (localStorage.getItem("theme_preference") === "dark" || (!('theme_preference' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-
-      // Modals Logic
-      const modalTrucos = document.getElementById("modal-trucos");
-      const modalBackup = document.getElementById("modal-backup");
-      const modalReset = document.getElementById("modal-reset");
-
-      function openModal(el) {
-        el.classList.remove("hidden");
+      // Modal helper toggles
+      function openModal(id) {
+        const modal = document.getElementById(id);
+        if (!modal) return;
+        modal.classList.remove("hidden");
         requestAnimationFrame(() => {
-          el.classList.remove("opacity-0");
-          el.querySelector("div")?.classList.remove("scale-95");
+          modal.classList.remove("opacity-0");
+          const child = modal.firstElementChild;
+          if (child) child.classList.remove("scale-95");
         });
       }
 
-      function closeModal(el) {
-        el.classList.add("opacity-0");
-        el.querySelector("div")?.classList.add("scale-95");
-        setTimeout(() => el.classList.add("hidden"), 200);
+      function closeModal(modal) {
+        modal.classList.add("opacity-0");
+        const child = modal.firstElementChild;
+        if (child) child.classList.add("scale-95");
+        setTimeout(() => modal.classList.add("hidden"), 200);
       }
 
-      document.getElementById("btn-trucos").addEventListener("click", () => openModal(modalTrucos));
-      document.getElementById("btn-backup").addEventListener("click", () => openModal(modalBackup));
-      document.getElementById("btn-reset").addEventListener("click", () => openModal(modalReset));
-
       document.querySelectorAll(".close-modal").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-          const modal = e.target.closest(".fixed");
+        btn.addEventListener("click", () => {
+          const modal = btn.closest("[id^='modal-']");
           if (modal) closeModal(modal);
         });
       });
 
-      // Reset Action
-      document.getElementById("confirm-reset-btn").addEventListener("click", () => {
-        completedTasks.clear();
-        saveState();
-        closeModal(modalReset);
-        renderApp();
-        showToast("Progreso desmarcado completamente", "info");
+      // Logo Modal
+      document.getElementById("btn-open-logo-modal").addEventListener("click", () => openModal("modal-logo"));
+      document.querySelectorAll(".btn-preset-logo").forEach(btn => {
+        btn.addEventListener("click", () => {
+          currentLogoUrl = btn.dataset.preset;
+          saveState();
+          renderApp();
+          closeModal(document.getElementById("modal-logo"));
+          showToast("Logo actualizado", "success");
+        });
       });
 
-      // Export Backup JSON
+      document.getElementById("btn-save-logo").addEventListener("click", () => {
+        const customUrl = document.getElementById("input-custom-logo-url").value.trim();
+        if (customUrl) {
+          currentLogoUrl = customUrl;
+          saveState();
+          renderApp();
+          showToast("Logo personalizado guardado", "success");
+        }
+        closeModal(document.getElementById("modal-logo"));
+      });
+
+      // Trucos Modal
+      document.getElementById("btn-trucos").addEventListener("click", () => openModal("modal-trucos"));
+
+      // Backup Modal
+      document.getElementById("btn-backup").addEventListener("click", () => openModal("modal-backup"));
+      
       document.getElementById("btn-export-file").addEventListener("click", () => {
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(Array.from(completedTasks)));
-        const downloadAnchor = document.createElement('a');
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+          taskState,
+          currentLogoUrl,
+          version: "2.0"
+        }, null, 2));
+        const downloadAnchor = document.createElement("a");
         downloadAnchor.setAttribute("href", dataStr);
         downloadAnchor.setAttribute("download", `plan_estudio_alberto_${new Date().toISOString().slice(0,10)}.json`);
         document.body.appendChild(downloadAnchor);
@@ -1276,33 +1506,56 @@
         showToast("Copia de seguridad descargada", "success");
       });
 
-      // Import Backup JSON
-      const fileInput = document.getElementById("file-import");
-      document.getElementById("btn-import-file").addEventListener("click", () => fileInput.click());
-      
-      fileInput.addEventListener("change", (e) => {
+      document.getElementById("btn-import-file").addEventListener("click", () => {
+        document.getElementById("file-import").click();
+      });
+
+      document.getElementById("file-import").addEventListener("change", (e) => {
         const file = e.target.files[0];
         if (!file) return;
-
         const reader = new FileReader();
-        reader.onload = function(evt) {
+        reader.onload = (event) => {
           try {
-            const imported = JSON.parse(evt.target.result);
-            if (Array.isArray(imported)) {
-              completedTasks = new Set(imported);
+            const imported = JSON.parse(event.target.result);
+            if (imported.taskState) {
+              taskState = imported.taskState;
+              if (imported.currentLogoUrl) currentLogoUrl = imported.currentLogoUrl;
               saveState();
               renderApp();
-              closeModal(modalBackup);
+              closeModal(document.getElementById("modal-backup"));
               showToast("Datos importados con éxito", "success");
             } else {
-              showToast("Formato de archivo inválido", "info");
+              showToast("Formato de archivo no válido", "warning");
             }
           } catch (err) {
-            showToast("Error al leer el archivo JSON", "info");
+            showToast("Error al leer el archivo JSON", "warning");
           }
         };
         reader.readAsText(file);
       });
+
+      // Reset Modal
+      document.getElementById("btn-reset").addEventListener("click", () => openModal("modal-reset"));
+      document.getElementById("confirm-reset-btn").addEventListener("click", () => {
+        taskState = {};
+        saveState();
+        renderApp();
+        closeModal(document.getElementById("modal-reset"));
+        showToast("Plan reiniciado por completo", "info");
+      });
+
+      // Dark / Light Theme Toggle
+      document.getElementById("btn-theme").addEventListener("click", () => {
+        document.documentElement.classList.toggle("dark");
+        const isDark = document.documentElement.classList.contains("dark");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      });
+
+      if (localStorage.getItem("theme") === "dark" || (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
     });
   </script>
 </body>
