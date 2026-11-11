@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planificador de Estudio Parciales 2026 - Alberto</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+            },
+            mates: {
+              light: '#818cf8',
+              DEFAULT: '#4f46e5',
+              dark: '#3730a3',
+              bg: '#eef2ff',
+              darkbg: '#1e1b4b'
+            },
+            fisica: {
+              light: '#fbbf24',
+              DEFAULT: '#d97706',
+              dark: '#92400e',
+              bg: '#fffbeb',
+              darkbg: '#451a03'
+            },
+            prog: {
+              light: '#34d399',
+              DEFAULT: '#059669',
+              dark: '#065f46',
+              bg: '#ecfdf5',
+              darkbg: '#064e3b'
+            },
+            comp: {
+              light: '#38bdf8',
+              DEFAULT: '#0284c7',
+              dark: '#075985',
+              bg: '#f0f9ff',
+              darkbg: '#0c4a6e'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #475569;
+    }
+    .checkbox-custom:checked + label .checkbox-box {
+      background-color: #10b981;
+      border-color: #10b981;
+    }
+    .checkbox-custom:checked + label .checkbox-box svg {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .accordion-content {
+      transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-full flex flex-col transition-colors duration-200">
+
+  <!-- TOP NAVBAR -->
+  <header class="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-sky-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
+          <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold leading-snug flex items-center gap-2">
+            Plan Parciales Dic 2026
+            <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">Alberto</span>
+          </h1>
+          <p class="text-xs text-slate-500 dark:text-slate-400">11 Nov - 17 Dic • 6h diarias de estudio</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        
+        <!-- Strategy / Tips Button -->
+        <button id="btn-trucos" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition">
+          <i data-lucide="lightbulb" class="w-4 h-4 text-amber-500"></i>
+          <span class="hidden md:inline">Trucos y Reglas</span>
+        </button>
+
+        <!-- Export / Import Button -->
+        <button id="btn-backup" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+          <i data-lucide="arrow-up-down" class="w-4 h-4"></i>
+          <span class="hidden md:inline">Datos</span>
+        </button>
+
+        <!-- Dark Mode Toggle -->
+        <button id="btn-theme" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          <i data-lucide="moon" id="icon-moon" class="w-5 h-5 hidden dark:block"></i>
+          <i data-lucide="sun" id="icon-sun" class="w-5 h-5 block dark:hidden"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- OVERVIEW DASHBOARD & PROGRESS CARD -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- Total Progress Box -->
+      <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-6 border border-slate-200 dark:border-slate-700/80 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+              <i data-lucide="activity" class="w-4 h-4 text-indigo-500"></i> Progreso General
+            </span>
+            <span id="overall-percentage" class="text-2xl font-black text-indigo-600 dark:text-indigo-400">0%</span>
+          </div>
+          
+          <!-- Progress Bar -->
+          <div class="w-full bg-slate-100 dark:bg-slate-700 h-3.5 rounded-full overflow-hidden p-0.5 border border-slate-200 dark:border-slate-600 mb-4">
+            <div id="overall-bar" class="h-full bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+          </div>
+          
+          <div class="flex items-center justify-between text-xs text-slate-600 dark:text-slate-300 font-medium">
+            <span>Tareas completadas: <strong id="completed-count" class="text-slate-900 dark:text-white">0</strong> / <span id="total-count">0</span></span>
+            <span>Horas: <strong id="completed-hours" class="text-slate-900 dark:text-white">0</strong> / <span id="total-hours">0</span> h</span>
+          </div>
+        </div>
+
+        <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="flex h-2.5 w-2.5 relative">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+            </span>
+            <span class="text-xs text-slate-500 dark:text-slate-400">Estado de avance en vivo</span>
+          </div>
+          <button id="btn-reset" class="text-xs text-rose-600 dark:text-rose-400 hover:underline flex items-center gap-1 font-semibold">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Reiniciar
+          </button>
+        </div>
+      </div>
+
+      <!-- Subject Breakdown Box -->
+      <div class="lg:col-span-2 bg-white dark:bg-slate-800/90 rounded-2xl p-6 border border-slate-200 dark:border-slate-700/80 shadow-sm">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4 flex items-center justify-between">
+          <span>Avance por Asignatura y Prioridad</span>
+          <span class="text-slate-400 font-normal lowercase">(orden del plan oficial)</span>
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Mates I (Prioridad 1) -->
+          <div class="p-3.5 rounded-xl bg-indigo-50/50 dark:bg-indigo-950/20 border border-indigo-100 dark:border-indigo-900/40">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-sm font-bold text-indigo-900 dark:text-indigo-200 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-indigo-600"></span>
+                Matemáticas I
+              </span>
+              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300">Prio 1</span>
+            </div>
+            <div class="w-full bg-indigo-200/50 dark:bg-indigo-900/50 h-2 rounded-full overflow-hidden mb-2">
+              <div id="bar-mates" class="bg-indigo-600 h-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400">
+              <span id="text-mates-count">0 / 0 tareas</span>
+              <span id="text-mates-pct" class="font-bold text-indigo-600 dark:text-indigo-400">0%</span>
+            </div>
+          </div>
+
+          <!-- Física (Prioridad 2) -->
+          <div class="p-3.5 rounded-xl bg-amber-50/50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/40">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-sm font-bold text-amber-900 dark:text-amber-200 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-amber-600"></span>
+                Física (Ondas / Moderna)
+              </span>
+              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300">Prio 2</span>
+            </div>
+            <div class="w-full bg-amber-200/50 dark:bg-amber-900/50 h-2 rounded-full overflow-hidden mb-2">
+              <div id="bar-fisica" class="bg-amber-600 h-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400">
+              <span id="text-fisica-count">0 / 0 tareas</span>
+              <span id="text-fisica-pct" class="font-bold text-amber-600 dark:text-amber-400">0%</span>
+            </div>
+          </div>
+
+          <!-- Programación (Prioridad 3) -->
+          <div class="p-3.5 rounded-xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/40">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-sm font-bold text-emerald-900 dark:text-emerald-200 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                Fundamentos Prog I (C)
+              </span>
+              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300">Prio 3</span>
+            </div>
+            <div class="w-full bg-emerald-200/50 dark:bg-emerald-900/50 h-2 rounded-full overflow-hidden mb-2">
+              <div id="bar-prog" class="bg-emerald-600 h-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400">
+              <span id="text-prog-count">0 / 0 tareas</span>
+              <span id="text-prog-pct" class="font-bold text-emerald-600 dark:text-emerald-400">0%</span>
+            </div>
+          </div>
+
+          <!-- Computadores (Prioridad 4) -->
+          <div class="p-3.5 rounded-xl bg-sky-50/50 dark:bg-sky-950/20 border border-sky-100 dark:border-sky-900/40">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-sm font-bold text-sky-900 dark:text-sky-200 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-sky-600"></span>
+                Fundamentos Computadores
+              </span>
+              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-300">Prio 4</span>
+            </div>
+            <div class="w-full bg-sky-200/50 dark:bg-sky-900/50 h-2 rounded-full overflow-hidden mb-2">
+              <div id="bar-comp" class="bg-sky-600 h-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400">
+              <span id="text-comp-count">0 / 0 tareas</span>
+              <span id="text-comp-pct" class="font-bold text-sky-600 dark:text-sky-400">0%</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TABS AND FILTERS BAR -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+      
+      <!-- View Modes -->
+      <div class="flex flex-wrap items-center gap-2" id="view-mode-buttons">
+        <button data-view="phases" class="view-btn px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-sm shadow-indigo-500/20 transition">
+          <i data-lucide="layers" class="w-4 h-4 inline mr-1"></i> Fases del Plan
+        </button>
+        <button data-view="pending" class="view-btn px-4 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition flex items-center gap-1.5">
+          <i data-lucide="clock" class="w-4 h-4 text-amber-500"></i> 
+          Pendientes 
+          <span id="pending-badge" class="ml-1 px-1.5 py-0.5 rounded-full text-[10px] bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-bold">0</span>
+        </button>
+        <button data-view="exams" class="view-btn px-4 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition">
+          <i data-lucide="calendar-check" class="w-4 h-4 text-rose-500 inline mr-1"></i> Hitos y Exámenes
+        </button>
+      </div>
+
+      <!-- Subject Filter -->
+      <div class="flex items-center gap-2">
+        <label for="filter-subject" class="text-xs font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1">
+          <i data-lucide="filter" class="w-3.5 h-3.5"></i> Filtrar:
+        </label>
+        <select id="filter-subject" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-200 rounded-lg px-3 py-1.5 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <option value="all">Todas las materias</option>
+          <option value="mates">Matemáticas I</option>
+          <option value="fisica">Física</option>
+          <option value="prog">Programación (C)</option>
+          <option value="comp">Computadores</option>
+        </select>
+      </div>
+
+    </div>
+
+    <!-- MAIN CONTENT CONTAINERS -->
+
+    <!-- CONTAINER 1: PHASES ACCORDION VIEW -->
+    <div id="view-phases-container" class="space-y-4">
+      <!-- Dynamic Phase Accordions injected via JS -->
+    </div>
+
+    <!-- CONTAINER 2: PENDING BACKLOG VIEW -->
+    <div id="view-pending-container" class="hidden space-y-4">
+      <div class="bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 rounded-xl p-4 flex items-start gap-3">
+        <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5"></i>
+        <div class="text-xs text-amber-900 dark:text-amber-200 space-y-1">
+          <strong class="font-bold text-sm block">Recuperación de Tareas y Ajuste de Días</strong>
+          <p>Aquí se muestran únicamente las tareas que aún no has marcado como completadas. Si algún día no pudiste cumplir con el horario, recurre a esta lista para compensar en tus horas libres o fines de semana.</p>
+        </div>
+      </div>
+      <div id="pending-items-list" class="space-y-3">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- CONTAINER 3: EXAMS AND MILESTONES VIEW -->
+    <div id="view-exams-container" class="hidden space-y-4">
+      <div id="exams-items-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- TRUCOS MODAL -->
+  <div id="modal-trucos" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden transform scale-95 transition-transform duration-200">
+      
+      <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between bg-amber-50/50 dark:bg-amber-950/30">
+        <div class="flex items-center gap-2">
+          <i data-lucide="sparkles" class="w-5 h-5 text-amber-500"></i>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white">Trucos y Reglas de Oro del Plan</h3>
+        </div>
+        <button class="close-modal text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+        
+        <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 flex gap-3">
+          <span class="text-lg">📖</span>
+          <div>
+            <strong class="font-semibold text-slate-900 dark:text-white">Prácticas de laboratorio:</strong>
+            <p>Antes de cada práctica, lee detenidamente el guion. Al terminar la práctica en la facultad, repite el ejercicio en casa sin mirar las soluciones.</p>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 flex gap-3">
+          <span class="text-lg">🎯</span>
+          <div>
+            <strong class="font-semibold text-slate-900 dark:text-white">Enfoque práctico activo:</strong>
+            <p>En cada sesión de estudio, empieza resolviendo problemas de inmediato. Recurre a la teoría solo cuando te atasques o no recuerdes un concepto clave.</p>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 flex gap-3">
+          <span class="text-lg">💻</span>
+          <div>
+            <strong class="font-semibold text-slate-900 dark:text-white">Programación y Computadores:</strong>
+            <p>Se aprenden únicamente picando código y escribiendo a mano o en IDE. Practica sin tener los apuntes al lado.</p>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 flex gap-3">
+          <span class="text-lg">⚛️</span>
+          <div>
+            <strong class="font-semibold text-slate-900 dark:text-white">Fórmulas de Física:</strong>
+            <p>Revisa las fórmulas con frecuencia durante el estudio. No intentes memorizarlas a última hora antes del examen.</p>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 flex gap-3">
+          <span class="text-lg">😴</span>
+          <div>
+            <strong class="font-semibold text-slate-900 dark:text-white">Descanso pre-examen:</strong>
+            <p>La noche anterior a cada examen es imprescindible dormir bien. Un cerebro descansado rinde mucho más que una hora extra de estudio nocturno.</p>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 flex gap-3">
+          <span class="text-lg">⚖️</span>
+          <div>
+            <strong class="font-semibold text-indigo-900 dark:text-indigo-200">Priorización si falta tiempo:</strong>
+            <p>Matemáticas I es la prioridad #1. Si te desbordas en algún momento, recorta horas de Computadores antes que de Mates.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="px-6 py-3 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-right">
+        <button class="close-modal px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white hover:bg-indigo-700 transition">
+          Entendido
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EXPORT / IMPORT MODAL -->
+  <div id="modal-backup" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-4">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-700">
+        <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <i data-lucide="database" class="w-5 h-5 text-indigo-500"></i> Copia de Seguridad / Progreso
+        </h3>
+        <button class="close-modal text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <p class="text-xs text-slate-600 dark:text-slate-400">
+        Puedes exportar tus tareas completadas a un archivo JSON o importar una copia previamente guardada.
+      </p>
+
+      <div class="space-y-3">
+        <button id="btn-export-file" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition shadow-sm">
+          <i data-lucide="download" class="w-4 h-4"></i> Descargar Copia de Seguridad (JSON)
+        </button>
+        
+        <div class="relative flex py-1 items-center">
+          <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+          <span class="flex-shrink mx-3 text-[10px] text-slate-400 font-bold uppercase">O restaurar</span>
+          <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+        </div>
+
+        <input type="file" id="file-import" accept=".json" class="hidden">
+        <button id="btn-import-file" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold hover:bg-slate-200 dark:hover:bg-slate-600 transition">
+          <i data-lucide="upload" class="w-4 h-4"></i> Seleccionar archivo JSON para Importar
+        </button>
+      </div>
+
+      <div class="pt-2 text-right">
+        <button class="close-modal px-4 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200">
+          Cerrar
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RESET CONFIRMATION MODAL -->
+  <div id="modal-reset" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 space-y-4">
+      
+      <div class="flex items-center gap-3 text-rose-600 dark:text-rose-400">
+        <div class="w-10 h-10 rounded-full bg-rose-100 dark:bg-rose-950/60 flex items-center justify-center shrink-0">
+          <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-slate-900 dark:text-white">¿Reiniciar todo el avance?</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Esta acción desmarcará todas las tareas completadas.</p>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 pt-2">
+        <button class="close-modal px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+          Cancelar
+        </button>
+        <button id="confirm-reset-btn" class="px-4 py-2 rounded-xl text-xs font-bold bg-rose-600 text-white hover:bg-rose-700 transition shadow-sm">
+          Sí, reiniciar progreso
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    /* ==========================================================================
+       DATA STRUCTURE FOR ALBERTO'S STUDY PLAN (DEC 2026)
+       ========================================================================== */
+    const STUDY_PLAN = [
+      {
+        phaseId: "fase1",
+        phaseTitle: "Fase 1: Base",
+        dates: "11 - 21 Noviembre 2026",
+        badge: "Base teórica y práctica",
+        groups: [
+          {
+            period: "11 - 14 Noviembre (Mié - Sáb)",
+            tasks: [
+              { id: "p1_1", subject: "mates", prio: 1, title: "Tema 3: Matrices y sistemas", hours: 2.5, desc: "Teoría y resolución de sistemas de ecuaciones lineales." },
+              { id: "p1_2", subject: "prog", prio: 3, title: "Tipos, operadores, condicionales, bucles", hours: 2.5, desc: "Sintaxis C, estructuras de control `if/else`, `switch`, `for`, `while`." },
+              { id: "p1_3", subject: "fisica", prio: 2, title: "Relatividad: Postulados y dilatación del tiempo", hours: 1.0, desc: "Conceptos fundamentales y transformaciones iniciales." }
+            ]
+          },
+          {
+            period: "Jueves 12 Noviembre",
+            tasks: [
+              { id: "p1_4", subject: "comp", prio: 4, title: "Práctica de Computadores (15:00 - 17:00)", hours: 2.0, desc: "Lectura previa obligatoria del Tema 9 antes de asistir." },
+              { id: "p1_5", subject: "mates", prio: 1, title: "Estudio Mañana: Mates I", hours: 2.0, desc: "Ejercicios prácticos del Tema 3." },
+              { id: "p1_6", subject: "prog", prio: 3, title: "Estudio Mañana: Programación (C)", hours: 1.0, desc: "Problemas prácticos de bucles." },
+              { id: "p1_7", subject: "fisica", prio: 2, title: "Estudio Mañana: Física", hours: 1.0, desc: "Problemas de dilatación del tiempo." }
+            ]
+          },
+          {
+            period: "Viernes 13 Noviembre",
+            tasks: [
+              { id: "p1_8", subject: "prog", prio: 3, title: "Práctica de Programación (16:30 - 18:30)", hours: 2.0, desc: "Desarrollo en el laboratorio." },
+              { id: "p1_9", subject: "mates", prio: 1, title: "Estudio Mañana: Mates I", hours: 2.5, desc: "Consolidación Tema 3." },
+              { id: "p1_10", subject: "fisica", prio: 2, title: "Estudio Mañana: Física", hours: 1.5, desc: "Relatividad especial." }
+            ]
+          },
+          {
+            period: "Domingo 15 Noviembre",
+            isRest: true,
+            tasks: [
+              { id: "p1_11", subject: "libre", prio: 0, title: "¡DÍA LIBRE! Descanso total", hours: 0, desc: "Recargar energías. No hay estudio programado." }
+            ]
+          },
+          {
+            period: "16 - 21 Noviembre (Lun - Sáb)",
+            tasks: [
+              { id: "p1_12", subject: "mates", prio: 1, title: "Tema 4: Espacio Vectorial Rn", hours: 2.5, desc: "Teoría de independencia lineal, bases y ejercicios prácticos." },
+              { id: "p1_13", subject: "prog", prio: 3, title: "Funciones y Arrays", hours: 2.5, desc: "Paso de parámetros, prototipos, vectores y matrices en C." },
+              { id: "p1_14", subject: "fisica", prio: 2, title: "Contracción de longitudes y Transformaciones de Lorentz", hours: 1.0, desc: "Resolución de problemas de cinemática relativista." },
+              { id: "p1_15", subject: "comp", prio: 4, title: "Jue 19 Nov: Práctica Computadores (15:00 - 17:00)", hours: 2.0, desc: "Leer previamente el Tema 10." },
+              { id: "p1_16", subject: "prog", prio: 3, title: "Vie 20 Nov: Práctica Programación (16:30 - 18:30)", hours: 2.0, desc: "Trabajo práctico de laboratorio." }
+            ]
+          }
+        ]
+      },
+      {
+        phaseId: "fase2",
+        phaseTitle: "Fase 2: Sprint Programación",
+        dates: "22 Nov - 5 Dic 2026",
+        badge: "Preparación intensa para el 1er Parcial (4 dic)",
+        groups: [
+          {
+            period: "Domingo 22 Noviembre (Sesión reducida 4h)",
+            tasks: [
+              { id: "p2_1", subject: "prog", prio: 3, title: "Ejercicios intensivos de Funciones y Arrays", hours: 2.0, desc: "Resolución a papel y código sin consultar apuntes." },
+              { id: "p2_2", subject: "mates", prio: 1, title: "Tema 4: Problemas de Rn", hours: 2.0, desc: "Subespacios vectoriales y cambio de base." }
+            ]
+          },
+          {
+            period: "23 - 27 Noviembre (Lun - Vie)",
+            tasks: [
+              { id: "p2_3", subject: "prog", prio: 3, title: "Punteros y Cadenas de caracteres", hours: 2.5, desc: "Aritmética de punteros, paso por referencia y librería `string.h`." },
+              { id: "p2_4", subject: "mates", prio: 1, title: "Tema 5: Ortogonalidad", hours: 2.0, desc: "Producto escalar, Gram-Schmidt y proyección ortogonal." },
+              { id: "p2_5", subject: "fisica", prio: 2, title: "Energía y Momento Relativistas", hours: 1.0, desc: "Ecuación $E=mc^2$, conservación de la energía/momento." },
+              { id: "p2_6", subject: "comp", prio: 4, title: "Tema 10: Direccionamiento (Jue 26: Práctica)", hours: 0.5, desc: "Estudio diario + Práctica de laboratorio Jueves 15:00-17:00." },
+              { id: "p2_7", subject: "prog", prio: 3, title: "Vie 27 Nov: Práctica Programación (16:30 - 18:30)", hours: 2.0, desc: "Asistencia a laboratorio." }
+            ]
+          },
+          {
+            period: "Sábado 28 Noviembre",
+            tasks: [
+              { id: "p2_8", subject: "prog", prio: 3, title: "Structs (Estructuras de datos en C)", hours: 2.5, desc: "Definición, arrays de structs y estructuras anidadas." },
+              { id: "p2_9", subject: "mates", prio: 1, title: "Tema 6: Diagonalización (Inicio adelantado)", hours: 2.0, desc: "Empieza antes para aligerar diciembre." },
+              { id: "p2_10", subject: "fisica", prio: 2, title: "Problemas globales de Relatividad", hours: 1.0, desc: "Repaso práctico de ejercicios tipo examen." },
+              { id: "p2_11", subject: "comp", prio: 4, title: "Tema 11: Registros y Motorola 68000/68020 (Inicio)", hours: 0.5, desc: "Lectura inicial del tema." }
+            ]
+          },
+          {
+            period: "Domingo 29 Noviembre (Sesión 4h)",
+            tasks: [
+              { id: "p2_12", subject: "prog", prio: 3, title: "Ejercicios combinados: Punteros y Structs", hours: 2.0, desc: "Punteros a structs y arrays de punteros." },
+              { id: "p2_13", subject: "mates", prio: 1, title: "Tema 6: Autovalores y Autovectores", hours: 2.0, desc: "Polinomio característico y cálculo de autospacios." }
+            ]
+          },
+          {
+            period: "30 Nov - 1 Diciembre (Lun - Mar)",
+            tasks: [
+              { id: "p2_14", subject: "prog", prio: 3, title: "Ficheros + Ejercicios de Examen real", hours: 2.5, desc: "Lectura/escritura en ficheros de texto y binarios." },
+              { id: "p2_15", subject: "mates", prio: 1, title: "Tema 6: Diagonalización de matrices", hours: 2.0, desc: "Criterios de diagonalización y matrices semejantes." },
+              { id: "p2_16", subject: "fisica", prio: 2, title: "Introducción a la Mecánica Cuántica", hours: 1.0, desc: "Radiación de cuerpo negro, efecto fotoeléctrico." },
+              { id: "p2_17", subject: "comp", prio: 4, title: "Tema 11: Instrucciones y Ensamblador M68k", hours: 0.5, desc: "Continuación de teoría." }
+            ]
+          },
+          {
+            period: "Miércoles 2 Diciembre (Simulacro de Prog)",
+            tasks: [
+              { id: "p2_18", subject: "prog", prio: 3, title: "5 HOURS: Simulacro de Examen + Corregir errores", hours: 5.0, desc: "Simulación real con cronómetro. Análisis minucioso de fallos." },
+              { id: "p2_19", subject: "mates", prio: 1, title: "Repaso suave de Mates I", hours: 1.0, desc: "Revisión rápida de fórmulas." }
+            ]
+          },
+          {
+            period: "Jueves 3 Diciembre (Pre-Examen)",
+            tasks: [
+              { id: "p2_20", subject: "prog", prio: 3, title: "Repaso final: Punteros, Cadenas y Structs (Mañana)", hours: 4.0, desc: "Revisión de dudas de última hora." },
+              { id: "p2_21", subject: "comp", prio: 4, title: "Práctica Computadores (15:00 - 17:00)", hours: 2.0, desc: "Última práctica antes del examen de prog." }
+            ]
+          },
+          {
+            period: "Viernes 4 Diciembre — DIA DEL EXAMEN",
+            isExam: true,
+            tasks: [
+              { id: "p2_22", subject: "prog", prio: 3, title: "🎯 EXAMEN PARCIAL DE FUNDAMENTOS DE PROGRAMACIÓN I", hours: 0, desc: "Examen oficial de C. Por la tarde: DESCANSO TOTAL." }
+            ]
+          },
+          {
+            period: "Sábado 5 Diciembre",
+            isRest: true,
+            tasks: [
+              { id: "p2_23", subject: "libre", prio: 0, title: "¡DÍA LIBRE! Descanso tras parcial de Prog", hours: 0, desc: "Desconexión para recargar energías." }
+            ]
+          }
+        ]
+      },
+      {
+        phaseId: "fase3",
+        phaseTitle: "Fase 3: Ataque Mates y Física",
+        dates: "6 - 14 Diciembre 2026",
+        badge: "Consolidación de prioridades #1 y #2",
+        groups: [
+          {
+            period: "Domingo 6 Diciembre (Sesión 4h)",
+            tasks: [
+              { id: "p3_1", subject: "fisica", prio: 2, title: "Física: Cuántica II", hours: 2.0, desc: "Hipótesis de De Broglie y principio de incertidumbre." },
+              { id: "p3_2", subject: "mates", prio: 1, title: "Mates: Repaso amplio de Temas 3 y 4", hours: 2.0, desc: "Matrices, sistemas y espacio vectorial Rn." }
+            ]
+          },
+          {
+            period: "7, 8, 9 y 11 Diciembre (6h diarias)",
+            tasks: [
+              { id: "p3_3", subject: "mates", prio: 1, title: "Mates I: Problemas intensivos de los 4 temas", hours: 2.5, desc: "Rotación diaria de temas (3, 4, 5, 6) + 1 día de mezcla global." },
+              { id: "p3_4", subject: "fisica", prio: 2, title: "Física: Dualidad, Schrödinger y Pozos de potencial", hours: 2.0, desc: "Ecuación de Schrödinger 1D y pozo infinito." },
+              { id: "p3_5", subject: "comp", prio: 4, title: "Computadores: Tema 12 (Pila y problemas de Ensamblador)", hours: 1.5, desc: "Subrutinas, paso de parámetros en la pila del 68020." }
+            ]
+          },
+          {
+            period: "Jueves 10 Diciembre",
+            tasks: [
+              { id: "p3_6", subject: "comp", prio: 4, title: "Práctica Computadores (15:00 - 17:00)", hours: 2.0, desc: "Laboratorio final de Computadores." },
+              { id: "p3_7", subject: "mates", prio: 1, title: "Estudio Mañana: Mates I", hours: 2.5, desc: "Ejercicios de examen." },
+              { id: "p3_8", subject: "fisica", prio: 2, title: "Estudio Mañana: Física", hours: 1.5, desc: "Problemas de pozos y barreras." }
+            ]
+          },
+          {
+            period: "Sábado 12 Diciembre (Simulacro Mates)",
+            tasks: [
+              { id: "p3_9", subject: "mates", prio: 1, title: "Simulacro Completo de Matemáticas I (3h) + Corrección (1h)", hours: 4.0, desc: "Condiciones reales de examen sin mirar apuntes." },
+              { id: "p3_10", subject: "fisica", prio: 2, title: "Física: Repaso global y resolución de dudas", hours: 2.0, desc: "Revisión de problemas clave." }
+            ]
+          },
+          {
+            period: "Domingo 13 Diciembre (Simulacro Física)",
+            tasks: [
+              { id: "p3_11", subject: "fisica", prio: 2, title: "Simulacro Completo de Física (3h) + Corrección (1h)", hours: 4.0, desc: "Simulación de examen de Relatividad y Cuántica." },
+              { id: "p3_12", subject: "mates", prio: 1, title: "Mates I: Ajustes de fallos del simulacro", hours: 1.0, desc: "Revisar errores cometidos." },
+              { id: "p3_13", subject: "comp", prio: 4, title: "Computadores: Repaso rápido de conceptos", hours: 1.0, desc: "Revisión de instrucciones." }
+            ]
+          },
+          {
+            period: "Lunes 14 Diciembre (Último día de preparación)",
+            tasks: [
+              { id: "p3_14", subject: "fisica", prio: 2, title: "Física: Fórmulas y Errores Típicos", hours: 2.5, desc: "Repaso activo del formulario y unidades." },
+              { id: "p3_15", subject: "mates", prio: 1, title: "Mates I: Repaso de lo que falle", hours: 2.5, desc: "Últimos ajustes en diagonalización u ortogonalidad." },
+              { id: "p3_16", subject: "comp", prio: 4, title: "Computadores: Problemas rápidos", hours: 1.0, desc: "Repaso ligero." }
+            ]
+          }
+        ]
+      },
+      {
+        phaseId: "fase4",
+        phaseTitle: "Semana de Exámenes Finales",
+        dates: "15 - 17 Diciembre 2026",
+        badge: "Sprint final y ejecución",
+        groups: [
+          {
+            period: "Martes 15 Diciembre — PARCIAL FÍSICA",
+            isExam: true,
+            tasks: [
+              { id: "p4_1", subject: "fisica", prio: 2, title: "Mañana: Física - Repaso muy ligero", hours: 2.0, desc: "Solo conceptos clave, sin agobiarse." },
+              { id: "p4_2", subject: "fisica", prio: 2, title: "🎯 EXAMEN FÍSICA (16:30, Aula 33)", hours: 0, desc: "¡A por ello! Mantén la calma." },
+              { id: "p4_3", subject: "mates", prio: 1, title: "Noche: Mates I - 1-2h tranquilas de repaso", hours: 1.5, desc: "Repaso visual para asentarlo antes de dormir." }
+            ]
+          },
+          {
+            period: "Miércoles 16 Diciembre — PARCIAL MATES I",
+            isExam: true,
+            tasks: [
+              { id: "p4_4", subject: "mates", prio: 1, title: "Mañana: Mates I - Repaso de fórmulas y tipos de ejercicio", hours: 2.0, desc: "Repaso previo al examen." },
+              { id: "p4_5", subject: "mates", prio: 1, title: "🎯 EXAMEN MATEMÁTICAS I", hours: 0, desc: "Prioridad #1 del cuatrimestre." },
+              { id: "p4_6", subject: "comp", prio: 4, title: "Tarde/Noche: Computadores (3h)", hours: 3.0, desc: "Tema 13: Terminales + Problemas de ensamblador M68k." }
+            ]
+          },
+          {
+            period: "Jueves 17 Diciembre — PARCIAL COMPUTADORES",
+            isExam: true,
+            tasks: [
+              { id: "p4_7", subject: "comp", prio: 4, title: "Mañana: Computadores - Problemas 68020 y Pila", hours: 2.5, desc: "Solo lo esencial, sin empezar temas nuevos." },
+              { id: "p4_8", subject: "comp", prio: 4, title: "🎯 EXAMEN FUNDAMENTOS DE COMPUTADORES", hours: 0, desc: "¡Último examen! Fin del periodo de parciales." }
+            ]
+          }
+        ]
+      }
+    ];
+
+    /* ==========================================================================
+       APP STATE & STORAGE MANAGEMENT
+       ========================================================================== */
+    const STORAGE_KEY = "alberto_study_plan_2026_v1";
+    let completedTasks = new Set();
+    let currentView = "phases"; // 'phases', 'pending', 'exams'
+    let currentSubjectFilter = "all"; // 'all', 'mates', 'fisica', 'prog', 'comp'
+    let collapsedPhases = new Set(); // Stores IDs of closed accordions
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed)) {
+            completedTasks = new Set(parsed);
+          }
+        }
+      } catch (e) {
+        console.error("Error loading localStorage:", e);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(completedTasks)));
+      } catch (e) {
+        console.error("Error saving localStorage:", e);
+      }
+    }
+
+    /* ==========================================================================
+       HELPERS & UI UTILS
+       ========================================================================== */
+    const SUBJECT_CONFIG = {
+      mates: {
+        name: "Mates I",
+        colorClass: "bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800",
+        badgeColor: "bg-indigo-600",
+        prioText: "Prio 1",
+        prioClass: "bg-indigo-600 text-white"
+      },
+      fisica: {
+        name: "Física",
+        colorClass: "bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border-amber-200 dark:border-amber-800",
+        badgeColor: "bg-amber-600",
+        prioText: "Prio 2",
+        prioClass: "bg-amber-600 text-white"
+      },
+      prog: {
+        name: "Prog (C)",
+        colorClass: "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800",
+        badgeColor: "bg-emerald-600",
+        prioText: "Prio 3",
+        prioClass: "bg-emerald-600 text-white"
+      },
+      comp: {
+        name: "Computadores",
+        colorClass: "bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 border-sky-200 dark:border-sky-800",
+        badgeColor: "bg-sky-600",
+        prioText: "Prio 4",
+        prioClass: "bg-sky-600 text-white"
+      },
+      libre: {
+        name: "Descanso",
+        colorClass: "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border-slate-200 dark:border-slate-700",
+        badgeColor: "bg-slate-400",
+        prioText: "Libre",
+        prioClass: "bg-slate-500 text-white"
+      }
+    };
+
+    function showToast(message, type = "success") {
+      const container = document.getElementById("toast-container");
+      const toast = document.createElement("div");
+      
+      const icon = type === "success" ? "check-circle" : "info";
+      const bgColor = type === "success" ? "bg-emerald-800 text-white" : "bg-slate-800 text-white";
+
+      toast.className = `pointer-events-auto flex items-center gap-2 px-4 py-3 rounded-xl text-xs font-semibold shadow-xl border border-white/10 ${bgColor} transform translate-y-4 opacity-0 transition-all duration-300`;
+      toast.innerHTML = `<i data-lucide="${icon}" class="w-4 h-4"></i> <span>${message}</span>`;
+
+      container.appendChild(toast);
+      lucide.createIcons();
+
+      requestAnimationFrame(() => {
+        toast.classList.remove("translate-y-4", "opacity-0");
+      });
+
+      setTimeout(() => {
+        toast.classList.add("translate-y-4", "opacity-0");
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    /* ==========================================================================
+       STATS & PROGRESS CALCULATOR
+       ========================================================================== */
+    function calculateStats() {
+      let totalTasks = 0;
+      let completedCount = 0;
+      let totalHours = 0;
+      let completedHours = 0;
+
+      const subjectStats = {
+        mates: { total: 0, done: 0 },
+        fisica: { total: 0, done: 0 },
+        prog: { total: 0, done: 0 },
+        comp: { total: 0, done: 0 }
+      };
+
+      STUDY_PLAN.forEach(phase => {
+        phase.groups.forEach(group => {
+          group.tasks.forEach(task => {
+            if (task.subject === "libre") return; // Skip rest days from stats
+
+            totalTasks++;
+            totalHours += task.hours;
+
+            if (subjectStats[task.subject]) {
+              subjectStats[task.subject].total++;
+            }
+
+            if (completedTasks.has(task.id)) {
+              completedCount++;
+              completedHours += task.hours;
+              if (subjectStats[task.subject]) {
+                subjectStats[task.subject].done++;
+              }
+            }
+          });
+        });
+      });
+
+      // Update Overall UI
+      const overallPct = totalTasks > 0 ? Math.round((completedCount / totalTasks) * 100) : 0;
+      document.getElementById("overall-percentage").innerText = `${overallPct}%`;
+      document.getElementById("overall-bar").style.width = `${overallPct}%`;
+      document.getElementById("completed-count").innerText = completedCount;
+      document.getElementById("total-count").innerText = totalTasks;
+      document.getElementById("completed-hours").innerText = completedHours.toFixed(1);
+      document.getElementById("total-hours").innerText = totalHours.toFixed(1);
+
+      // Pending Count Badge
+      const pendingCount = totalTasks - completedCount;
+      document.getElementById("pending-badge").innerText = pendingCount;
+
+      // Update Subject UI
+      Object.keys(subjectStats).forEach(subj => {
+        const data = subjectStats[subj];
+        const pct = data.total > 0 ? Math.round((data.done / data.total) * 100) : 0;
+        
+        const bar = document.getElementById(`bar-${subj}`);
+        const textCount = document.getElementById(`text-${subj}-count`);
+        const textPct = document.getElementById(`text-${subj}-pct`);
+
+        if (bar) bar.style.width = `${pct}%`;
+        if (textCount) textCount.innerText = `${data.done} / ${data.total} tareas`;
+        if (textPct) textPct.innerText = `${pct}%`;
+      });
+    }
+
+    /* ==========================================================================
+       RENDER FUNCTIONS
+       ========================================================================== */
+
+    // Single Task Card HTML Generator
+    function renderTaskCard(task, groupPeriod) {
+      const isChecked = completedTasks.has(task.id);
+      const conf = SUBJECT_CONFIG[task.subject] || SUBJECT_CONFIG.libre;
+
+      if (task.subject === "libre") {
+        return `
+          <div class="p-4 rounded-xl bg-gradient-to-r from-rose-50 to-amber-50 dark:from-rose-950/30 dark:to-amber-950/30 border border-rose-200/60 dark:border-rose-900/40 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span class="text-xl">🌴</span>
+              <div>
+                <h4 class="text-xs font-bold text-rose-900 dark:text-rose-200 uppercase tracking-wider">${task.title}</h4>
+                <p class="text-xs text-rose-700/80 dark:text-rose-300/80">${task.desc}</p>
+              </div>
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-rose-100 dark:bg-rose-900 text-rose-700 dark:text-rose-300">Descanso</span>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="group relative p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-800/80 border ${isChecked ? 'border-emerald-200 dark:border-emerald-900/60 bg-emerald-50/20 dark:bg-emerald-950/10' : 'border-slate-200 dark:border-slate-700/80'} hover:border-indigo-300 dark:hover:border-indigo-600 transition-all duration-200 shadow-sm flex items-start gap-3">
+          
+          <!-- Custom Checkbox -->
+          <div class="pt-0.5">
+            <input type="checkbox" id="chk-${task.id}" data-task-id="${task.id}" class="checkbox-custom hidden" ${isChecked ? 'checked' : ''}>
+            <label for="chk-${task.id}" class="cursor-pointer flex items-center justify-center">
+              <div class="checkbox-box w-5 h-5 rounded-md border-2 border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 flex items-center justify-center transition-all">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-white opacity-0 transform scale-75 transition-all"></i>
+              </div>
+            </label>
+          </div>
+
+          <!-- Content -->
+          <div class="flex-grow min-w-0">
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded-md ${conf.colorClass} border">
+                ${conf.name}
+              </span>
+              
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded ${conf.prioClass}">
+                ${conf.prioText}
+              </span>
+
+              ${task.hours > 0 ? `
+                <span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 flex items-center gap-1 ml-auto">
+                  <i data-lucide="clock" class="w-3 h-3"></i> ${task.hours} h
+                </span>
+              ` : ''}
+            </div>
+
+            <h4 class="text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100 ${isChecked ? 'line-through text-slate-400 dark:text-slate-500' : ''} transition-colors">
+              ${task.title}
+            </h4>
+
+            ${task.desc ? `
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                ${task.desc}
+              </p>
+            ` : ''}
+
+            ${groupPeriod ? `
+              <div class="mt-2 text-[10px] font-medium text-slate-400 flex items-center gap-1">
+                <i data-lucide="calendar" class="w-3 h-3"></i> ${groupPeriod}
+              </div>
+            ` : ''}
+          </div>
+
+        </div>
+      `;
+    }
+
+    // Render Main Accordion View
+    function renderPhasesView() {
+      const container = document.getElementById("view-phases-container");
+      container.innerHTML = "";
+
+      STUDY_PLAN.forEach((phase) => {
+        // Calculate phase progress
+        let phaseTotal = 0;
+        let phaseDone = 0;
+
+        phase.groups.forEach(g => {
+          g.tasks.forEach(t => {
+            if (t.subject !== "libre") {
+              if (currentSubjectFilter === "all" || t.subject === currentSubjectFilter) {
+                phaseTotal++;
+                if (completedTasks.has(t.id)) phaseDone++;
+              }
+            }
+          });
+        });
+
+        // Hide phase if filter hides all tasks
+        if (phaseTotal === 0 && currentSubjectFilter !== "all") return;
+
+        const phasePct = phaseTotal > 0 ? Math.round((phaseDone / phaseTotal) * 100) : 0;
+        const isCollapsed = collapsedPhases.has(phase.phaseId);
+
+        const phaseCard = document.createElement("div");
+        phaseCard.className = "bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 rounded-2xl overflow-hidden shadow-sm transition-all";
+        
+        let groupsHTML = "";
+        phase.groups.forEach(group => {
+          // Filter group tasks
+          const filteredTasks = group.tasks.filter(t => currentSubjectFilter === "all" || t.subject === currentSubjectFilter || t.subject === "libre");
+          
+          if (filteredTasks.length === 0) return;
+
+          groupsHTML += `
+            <div class="space-y-2.5">
+              <div class="flex items-center gap-2 pt-2">
+                <div class="h-2 w-2 rounded-full ${group.isExam ? 'bg-rose-500 animate-ping' : group.isRest ? 'bg-amber-400' : 'bg-indigo-500'}"></div>
+                <h3 class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+                  ${group.period}
+                </h3>
+              </div>
+              <div class="grid grid-cols-1 gap-2.5">
+                ${filteredTasks.map(t => renderTaskCard(t, null)).join('')}
+              </div>
+            </div>
+          `;
+        });
+
+        phaseCard.innerHTML = `
+          <!-- ACCORDION HEADER -->
+          <button data-accordion-id="${phase.phaseId}" class="accordion-trigger w-full px-5 py-4 flex items-center justify-between text-left bg-slate-50/50 dark:bg-slate-800/50 hover:bg-slate-100/60 dark:hover:bg-slate-750 transition border-b border-slate-200/60 dark:border-slate-700/60">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+              <div>
+                <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  ${phase.phaseTitle}
+                  <span class="text-xs font-normal text-slate-500 dark:text-slate-400">(${phase.dates})</span>
+                </h2>
+                <span class="text-xs text-indigo-600 dark:text-indigo-400 font-medium">${phase.badge}</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <!-- Phase Mini Progress -->
+              <div class="hidden sm:flex items-center gap-2">
+                <div class="w-24 bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+                  <div class="bg-indigo-600 h-full transition-all duration-300" style="width: ${phasePct}%"></div>
+                </div>
+                <span class="text-xs font-bold text-slate-600 dark:text-slate-300 w-9 text-right">${phasePct}%</span>
+              </div>
+
+              <!-- Toggle Chevron Icon -->
+              <div class="w-8 h-8 rounded-lg bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 flex items-center justify-center text-slate-500 dark:text-slate-300">
+                <i data-lucide="chevron-down" class="w-4 h-4 transform transition-transform duration-200 ${isCollapsed ? '-rotate-90' : ''}"></i>
+              </div>
+            </div>
+          </button>
+
+          <!-- ACCORDION BODY -->
+          <div id="acc-body-${phase.phaseId}" class="p-5 space-y-6 ${isCollapsed ? 'hidden' : ''}">
+            ${groupsHTML}
+          </div>
+        `;
+
+        container.appendChild(phaseCard);
+      });
+
+      lucide.createIcons();
+    }
+
+    // Render Pending Tasks View
+    function renderPendingView() {
+      const container = document.getElementById("pending-items-list");
+      container.innerHTML = "";
+
+      let pendingTasks = [];
+
+      STUDY_PLAN.forEach(phase => {
+        phase.groups.forEach(group => {
+          group.tasks.forEach(task => {
+            if (task.subject !== "libre" && !completedTasks.has(task.id)) {
+              if (currentSubjectFilter === "all" || task.subject === currentSubjectFilter) {
+                pendingTasks.push({ task, period: `${phase.phaseTitle} • ${group.period}` });
+              }
+            }
+          });
+        });
+      });
+
+      if (pendingTasks.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
+            <div class="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-3">
+              <i data-lucide="party-popper" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white">¡No tienes tareas pendientes!</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Estás al día con todo el plan de estudio.</p>
+          </div>
+        `;
+      } else {
+        pendingTasks.forEach(item => {
+          container.innerHTML += renderTaskCard(item.task, item.period);
+        });
+      }
+
+      lucide.createIcons();
+    }
+
+    // Render Exams View
+    function renderExamsView() {
+      const container = document.getElementById("exams-items-list");
+      container.innerHTML = "";
+
+      const exams = [
+        {
+          date: "Viernes 4 de Diciembre 2026",
+          subject: "prog",
+          title: "Parcial: Fundamentos de Programación I",
+          topics: "Lenguaje C (Tipos, bucles, funciones, arrays, punteros, structs y ficheros)",
+          prio: "Prioridad 3"
+        },
+        {
+          date: "Martes 15 de Diciembre 2026 (16:30 - Aula 33)",
+          subject: "fisica",
+          title: "Parcial: Física (Ondas y Física Moderna)",
+          topics: "Relatividad especial y Mecánica Cuántica (Schrödinger, dualidad, pozos)",
+          prio: "Prioridad 2"
+        },
+        {
+          date: "Miércoles 16 de Diciembre 2026",
+          subject: "mates",
+          title: "Parcial: Matemáticas I",
+          topics: "Temas 3 a 6: Matrices y sistemas, espacio Rn, Ortogonalidad, Diagonalización",
+          prio: "Prioridad 1 (MÁXIMA)"
+        },
+        {
+          date: "Jueves 17 de Diciembre 2026",
+          subject: "comp",
+          title: "Parcial: Fundamentos de Computadores",
+          topics: "Temas 9 a 13: Motorola 68020/68000, direccionamiento, ensamblador, pila, terminales",
+          prio: "Prioridad 4"
+        }
+      ];
+
+      exams.forEach(ex => {
+        const conf = SUBJECT_CONFIG[ex.subject];
+        container.innerHTML += `
+          <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border-2 border-indigo-100 dark:border-slate-700 shadow-sm space-y-3 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-indigo-500/5 rounded-full blur-2xl pointer-events-none"></div>
+            
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold px-2.5 py-1 rounded-lg ${conf.colorClass} border">
+                ${conf.name}
+              </span>
+              <span class="text-xs font-black px-2.5 py-1 rounded-lg ${conf.prioClass}">
+                ${ex.prio}
+              </span>
+            </div>
+
+            <div>
+              <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 block mb-1">📅 ${ex.date}</span>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white">${ex.title}</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">${ex.topics}</p>
+            </div>
+          </div>
+        `;
+      });
+
+      lucide.createIcons();
+    }
+
+    // Master Render Trigger
+    function renderApp() {
+      calculateStats();
+
+      if (currentView === "phases") {
+        renderPhasesView();
+      } else if (currentView === "pending") {
+        renderPendingView();
+      } else if (currentView === "exams") {
+        renderExamsView();
+      }
+    }
+
+    /* ==========================================================================
+       EVENT LISTENERS & INTERACTION LOGIC
+       ========================================================================== */
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadState();
+      renderApp();
+
+      // Delegation for Checkbox toggles
+      document.addEventListener("change", (e) => {
+        if (e.target && e.target.matches(".checkbox-custom")) {
+          const taskId = e.target.getAttribute("data-task-id");
+          if (e.target.checked) {
+            completedTasks.add(taskId);
+            showToast("Tarea completada", "success");
+          } else {
+            completedTasks.delete(taskId);
+          }
+          saveState();
+          renderApp();
+        }
+      });
+
+      // Accordion Toggle Handler
+      document.addEventListener("click", (e) => {
+        const trigger = e.target.closest(".accordion-trigger");
+        if (trigger) {
+          const phaseId = trigger.getAttribute("data-accordion-id");
+          if (collapsedPhases.has(phaseId)) {
+            collapsedPhases.delete(phaseId);
+          } else {
+            collapsedPhases.add(phaseId);
+          }
+          renderApp();
+        }
+      });
+
+      // View Mode Switcher
+      document.querySelectorAll("#view-mode-buttons .view-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const mode = btn.getAttribute("data-view");
+          currentView = mode;
+
+          // Update Button Styles
+          document.querySelectorAll("#view-mode-buttons .view-btn").forEach(b => {
+            b.className = "view-btn px-4 py-2 rounded-xl text-xs font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition flex items-center gap-1.5";
+          });
+          btn.className = "view-btn px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-sm shadow-indigo-500/20 transition flex items-center gap-1.5";
+
+          // Show/Hide Containers
+          document.getElementById("view-phases-container").classList.toggle("hidden", mode !== "phases");
+          document.getElementById("view-pending-container").classList.toggle("hidden", mode !== "pending");
+          document.getElementById("view-exams-container").classList.toggle("hidden", mode !== "exams");
+
+          renderApp();
+        });
+      });
+
+      // Subject Filter Change
+      document.getElementById("filter-subject").addEventListener("change", (e) => {
+        currentSubjectFilter = e.target.value;
+        renderApp();
+      });
+
+      // Dark Mode Toggle
+      const themeBtn = document.getElementById("btn-theme");
+      themeBtn.addEventListener("click", () => {
+        document.documentElement.classList.toggle("dark");
+        const isDark = document.documentElement.classList.contains("dark");
+        localStorage.setItem("theme_preference", isDark ? "dark" : "light");
+      });
+
+      // Restore System Theme Preference
+      if (localStorage.getItem("theme_preference") === "dark" || (!('theme_preference' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+
+      // Modals Logic
+      const modalTrucos = document.getElementById("modal-trucos");
+      const modalBackup = document.getElementById("modal-backup");
+      const modalReset = document.getElementById("modal-reset");
+
+      function openModal(el) {
+        el.classList.remove("hidden");
+        requestAnimationFrame(() => {
+          el.classList.remove("opacity-0");
+          el.querySelector("div")?.classList.remove("scale-95");
+        });
+      }
+
+      function closeModal(el) {
+        el.classList.add("opacity-0");
+        el.querySelector("div")?.classList.add("scale-95");
+        setTimeout(() => el.classList.add("hidden"), 200);
+      }
+
+      document.getElementById("btn-trucos").addEventListener("click", () => openModal(modalTrucos));
+      document.getElementById("btn-backup").addEventListener("click", () => openModal(modalBackup));
+      document.getElementById("btn-reset").addEventListener("click", () => openModal(modalReset));
+
+      document.querySelectorAll(".close-modal").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const modal = e.target.closest(".fixed");
+          if (modal) closeModal(modal);
+        });
+      });
+
+      // Reset Action
+      document.getElementById("confirm-reset-btn").addEventListener("click", () => {
+        completedTasks.clear();
+        saveState();
+        closeModal(modalReset);
+        renderApp();
+        showToast("Progreso desmarcado completamente", "info");
+      });
+
+      // Export Backup JSON
+      document.getElementById("btn-export-file").addEventListener("click", () => {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(Array.from(completedTasks)));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", `plan_estudio_alberto_${new Date().toISOString().slice(0,10)}.json`);
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+        showToast("Copia de seguridad descargada", "success");
+      });
+
+      // Import Backup JSON
+      const fileInput = document.getElementById("file-import");
+      document.getElementById("btn-import-file").addEventListener("click", () => fileInput.click());
+      
+      fileInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          try {
+            const imported = JSON.parse(evt.target.result);
+            if (Array.isArray(imported)) {
+              completedTasks = new Set(imported);
+              saveState();
+              renderApp();
+              closeModal(modalBackup);
+              showToast("Datos importados con éxito", "success");
+            } else {
+              showToast("Formato de archivo inválido", "info");
+            }
+          } catch (err) {
+            showToast("Error al leer el archivo JSON", "info");
+          }
+        };
+        reader.readAsText(file);
+      });
+    });
+  </script>
+</body>
+</html>
