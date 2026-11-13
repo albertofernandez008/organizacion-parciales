@@ -2000,7 +2000,7 @@ ${buildStudyContextSummary()}`;
       aiChatHistory.push({ role: "user", parts: [{ text: userText }] });
       if (aiChatHistory.length > 16) aiChatHistory = aiChatHistory.slice(-16);
 
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/hydrogen:generateContent?key=${encodeURIComponent(apiKey)}`;
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-4-hydrogen:generateContent?key=${encodeURIComponent(apiKey)}`;
       const generationConfig = {
         thinkingConfig: {
           thinkingLevel: "HIGH"
