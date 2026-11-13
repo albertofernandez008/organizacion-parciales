@@ -340,7 +340,7 @@
         </div>
         <div>
           <h3 class="text-sm font-bold text-slate-900 dark:text-white leading-none">Tutor y Planificador IA</h3>
-          <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-semibold">Modifica tu plan • Crea planes • Resuelve dudas</span>
+          <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-semibold">Hydrogen (Modo Alto) • Plan • Tutor</span>
         </div>
       </div>
       <div class="flex items-center gap-1">
@@ -359,7 +359,7 @@
     <!-- API Key Config Box (Collapsible) -->
     <div id="ai-key-panel" class="p-3.5 bg-amber-50 dark:bg-amber-950/40 border-b border-amber-200 dark:border-amber-800 space-y-2 hidden">
       <div class="flex items-center justify-between">
-        <span class="text-xs font-bold text-amber-900 dark:text-amber-200">🔑 Clave API de Google Gemini</span>
+        <span class="text-xs font-bold text-amber-900 dark:text-amber-200">🔑 Clave API de Google AI Studio</span>
         <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" class="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline">Obtener clave gratis &rarr;</a>
       </div>
       <p class="text-[11px] text-amber-800 dark:text-amber-300">Se guarda solo en tu navegador (localStorage). Nunca se sube a GitHub.</p>
@@ -380,8 +380,8 @@
     <!-- Messages Container -->
     <div id="ai-messages" class="flex-1 p-4 overflow-y-auto flex flex-col gap-3">
       <div class="ai-msg ai-msg-bot">
-        ¡Hola Alberto! Soy tu <strong>Agente de Estudio IA</strong>. Puedo:
-        <ul style="list-style:disc; padding-left:18px; margin-top:4px; space-y:2px;">
+        ¡Hola Alberto! Soy tu <strong>Agente de Estudio IA</strong> (Hydrogen en modo alto). Puedo:
+        <ul style="list-style:disc; padding-left:18px; margin-top:4px;">
           <li><strong>Modificar tu plan:</strong> marcar horas hechas, mover atrasos o añadir sesiones nuevas.</li>
           <li><strong>Crear planes nuevos:</strong> dime tus asignaturas, fechas de examen y horas diarias.</li>
           <li><strong>Ayudarte a estudiar:</strong> explicarte teoría, resolver ejercicios de C, Física, Mates I o 68020 y hacerte simulacros.</li>
@@ -1780,7 +1780,7 @@
     }
 
     /* ==========================================================================
-       6. AI AGENT ENGINE (GEMINI FUNCTION CALLING + TUTOR)
+       6. AI AGENT ENGINE (HYDROGEN MODO ALTO + FUNCTION CALLING)
        ========================================================================== */
     const GEMINI_KEY_STORAGE = "alberto_gemini_api_key";
     let aiChatHistory = [];
@@ -1964,7 +1964,6 @@
       if (type === "user" || type === "tool") {
         div.textContent = text;
       } else {
-        // Formateo seguro de Markdown básico (negritas, código en bloque e inline)
         let safe = esc(text)
           .replace(/```([\s\S]*?)```/g, "<pre><code>$1</code></pre>")
           .replace(/`([^`]+)`/g, "<code>$1</code>")
@@ -2060,35 +2059,7 @@ ${buildStudyContextSummary()}`;
         }
 
         loadingBubble.remove();
-        // Filtramos p.thought para no mostrar el monólogo interno en la burbuja final
         const replyText = candidate?.parts?.filter(p => !p.thought).map(p => p.text || "").join("") || "Listo, acción completada.";
-        aiChatHistory.push({ role: "model", parts: [{ text: replyText }] });
-        appendAiBubble(replyText, "bot");
-
-      } catch (err) {
-        loadingBubble.remove();
-        appendAiBubble(`❌ Error: ${err.message}. Verifica tu clave API pulsando el icono de la llave arriba.`, "bot");
-      }
-    }
-
-          aiChatHistory.push({ role: "user", parts: functionResponses });
-
-          res = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              systemInstruction: { parts: [{ text: systemPrompt }] },
-              contents: aiChatHistory,
-              tools: AI_TOOLS
-            })
-          });
-          data = await res.json();
-          if (!res.ok) throw new Error(data.error?.message || "Error tras ejecutar herramienta");
-          candidate = data.candidates?.[0]?.content;
-        }
-
-        loadingBubble.remove();
-        const replyText = candidate?.parts?.map(p => p.text || "").join("") || "Listo, acción completada.";
         aiChatHistory.push({ role: "model", parts: [{ text: replyText }] });
         appendAiBubble(replyText, "bot");
 
@@ -2125,7 +2096,7 @@ ${buildStudyContextSummary()}`;
         if (val) {
           setGeminiKey(val);
           document.getElementById("ai-key-panel").classList.add("hidden");
-          showToast("Clave API de Gemini guardada en tu navegador", "success");
+          showToast("Clave API guardada en tu navegador", "success");
         }
       });
       document.getElementById("btn-ai-clear").addEventListener("click", () => {
