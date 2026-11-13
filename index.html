@@ -1981,12 +1981,12 @@
       const apiKey = getGeminiKey();
       if (!apiKey) {
         document.getElementById("ai-key-panel").classList.remove("hidden");
-        appendAiBubble("⚠️ Necesitas configurar tu clave API de Google Gemini arriba para activar el agente.", "bot");
+        appendAiBubble("⚠️ Necesitas configurar tu clave API arriba para activar el agente.", "bot");
         return;
       }
 
       appendAiBubble(userText, "user");
-      const loadingBubble = appendAiBubble("Pensando y revisando tu plan...", "bot");
+      const loadingBubble = appendAiBubble("Razonando en modo alto (Hydrogen)...", "bot");
 
       const systemPrompt = `Eres el Agente de Estudio IA personal de Alberto.
 Tu objetivo es ayudarle a aprobar sus exámenes mediante:
@@ -2001,7 +2001,12 @@ ${buildStudyContextSummary()}`;
       aiChatHistory.push({ role: "user", parts: [{ text: userText }] });
       if (aiChatHistory.length > 16) aiChatHistory = aiChatHistory.slice(-16);
 
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`;
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/hydrogen:generateContent?key=${encodeURIComponent(apiKey)}`;
+      const generationConfig = {
+        thinkingConfig: {
+          thinkingLevel: "HIGH"
+        }
+      };
 
       try {
         let res = await fetch(url, {
@@ -2010,11 +2015,12 @@ ${buildStudyContextSummary()}`;
           body: JSON.stringify({
             systemInstruction: { parts: [{ text: systemPrompt }] },
             contents: aiChatHistory,
-            tools: AI_TOOLS
+            tools: AI_TOOLS,
+            generationConfig
           })
         });
         let data = await res.json();
-        if (!res.ok) throw new Error(data.error?.message || "Error al conectar con Gemini API");
+        if (!res.ok) throw new Error(data.error?.message || "Error al conectar con la API");
 
         let candidate = data.candidates?.[0]?.content;
         let safetyLoop = 0;
@@ -2035,6 +2041,35 @@ ${buildStudyContextSummary()}`;
               });
             }
           }
+
+          aiChatHistory.push({ role: "user", parts: functionResponses });
+
+          res = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              systemInstruction: { parts: [{ text: systemPrompt }] },
+              contents: aiChatHistory,
+              tools: AI_TOOLS,
+              generationConfig
+            })
+          });
+          data = await res.json();
+          if (!res.ok) throw new Error(data.error?.message || "Error tras ejecutar herramienta");
+          candidate = data.candidates?.[0]?.content;
+        }
+
+        loadingBubble.remove();
+        // Filtramos p.thought para no mostrar el monólogo interno en la burbuja final
+        const replyText = candidate?.parts?.filter(p => !p.thought).map(p => p.text || "").join("") || "Listo, acción completada.";
+        aiChatHistory.push({ role: "model", parts: [{ text: replyText }] });
+        appendAiBubble(replyText, "bot");
+
+      } catch (err) {
+        loadingBubble.remove();
+        appendAiBubble(`❌ Error: ${err.message}. Verifica tu clave API pulsando el icono de la llave arriba.`, "bot");
+      }
+    }
 
           aiChatHistory.push({ role: "user", parts: functionResponses });
 
